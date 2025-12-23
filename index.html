@@ -2,34 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>KwalApp</title>
+  <title>Kwala — Snack Attack?</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="KwalApp – Smart delivery platform" />
-
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #020617, #0f172a);
-      color: #e5e7eb;
-      font-family: system-ui, sans-serif;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .wrap {
-      text-align: center;
-    }
-    h1 {
-      font-size: 3rem;
-      color: #38bdf8;
-    }
-  </style>
+  <meta name="description" content="Kwala — a playful delivery UI mockup" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Nunito+Sans:wght@300;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="wrap">
-    <h1>KwalApp 🚀</h1>
-    <p>Official site powered by GitHub Pages</p>
-  </div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">Kwala</div>
+      <nav class="nav">
+        <a href="#">Why Kwala</a>
+        <a href="#partners">Partners</a>
+        <button class="lang">EN ▾</button>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <small class="eyebrow">LET US TAKE CARE OF THAT</small>
+          <h1 class="hero-title">Snack<br/>Attack ?</h1>
+          <p class="hero-sub">Your all new delivery app for the best food in the city. Simple, fast and playful.</p>
+        </div>
+        <div class="hero-art">
+          <img src="assets/koala.svg" alt="koala" class="koala"/>
+        </div>
+      </div>
+    </section>
+
+    <section id="partners" class="partners">
+      <div class="container partners-inner">
+        <p class="partners-small">Our Partners</p>
+        <h2>Simply, The Best You Can Wish For</h2>
+        <div class="logos">
+          <div class="logo">DEJAVU</div>
+          <div class="logo">THREEZ</div>
+          <div class="logo">ZAKARIA FOOD</div>
+          <div class="logo">Shawarma</div>
+          <div class="logo">ON/OFF</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="container features-grid">
+        <div class="feature-icon">🐨</div>
+        <div class="feature-icon">🐨</div>
+        <div class="feature-card">Place Fees + Service Fees</div>
+        <div class="feature-card alt">Wrong Order ? Cancel It</div>
+        <div class="feature-card">Your Meal, Your Calls</div>
+        <div class="feature-card alt">Pay With Ease</div>
+        <div class="feature-card">Track Your Meal</div>
+        <div class="feature-card alt">More Features</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">Kwala<br/><span class="muted">Breathe</span></div>
+      <div class="footer-links">
+        <a href="#">About Us</a>
+        <a href="#">Follow Us</a>
+      </div>
+      <div class="footer-copy">© 2025 All rights reserved.</div>
+    </div>
+  </footer>
 </body>
 </html>
