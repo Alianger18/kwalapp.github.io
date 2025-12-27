@@ -1,0 +1,110 @@
+# Politique de Confidentialité
+**Date d'entrée en vigueur : 1er janvier 2026**
+
+Bienvenue sur Kwala. Votre application locale de livraison, actuellement disponible à Khemisset et bientôt
+ dans les autres villes du Maroc.  
+
+Cette politique vous aide à exercer votre droit d’accès aux informations sur la façon dont nous collectons,
+ traitons et protégeons vos informations lorsque vous utilisez l’application et les services Kwala.
+
+## 1. Qui Sommes nous
+Kwala est une plateforme de livraison de repas fondée à Khemisset, Maroc, et opérée par Abdelali BARIR, 
+développeur individuel.  
+
+Aux fins des lois applicables en matière de protection des données, Abdelali BARIR agit en tant que 
+**responsable du traitement** des données personnelles traitées via Kwala.  
+
+Nous nous engageons à protéger votre vie privée et à gérer vos données personnelles de manière responsable.
+
+## 2. Informations que Nous Collectons
+Nous collectons uniquement les informations nécessaires pour fournir nos services et améliorer votre expérience.
+
+### 2.1 Informations du Compte
+Pour utiliser Kwala, vous devez créer un compte. Nous collectons les informations suivantes :  
+- Nom complet  
+- Adresse e-mail  
+- Numéro de téléphone marocain  
+- Sexe (optionnel, utilisé uniquement pour personnaliser les recommandations et les analyses)  
+- Date de naissance (utilisée uniquement pour la vérification de l’âge et la prévention de l’accès aux mineurs)
+
+### 2.2 Informations sur l’Appareil
+Nous collectons des données sur les appareils qui utilisent notre application afin de personnaliser nos services. 
+Les informations recueillies incluent :  
+- Modèle de l’appareil  
+- Système d’exploitation  
+- Version de l’application utilisée
+
+### 2.3 Données sur les Repas
+Nous souhaitons vous offrir les meilleures offres possibles. Nous analysons vos habitudes de commande, y compris 
+les repas commandés, les horaires et la fréquence de consommation.
+
+### 2.4 Données d’Utilisation
+Bien que nous nous efforcions de fournir les dernières technologies, notre application peut rencontrer des difficultés.  
+Nous devons donc collecter et analyser vos interactions avec l’application, l’utilisation des fonctionnalités et les 
+journaux de crash afin d’améliorer les performances et l’expérience utilisateur.
+
+## 3. Comment Nous Utilisons Vos Informations
+En créant un compte et en utilisant Kwala, vous consentez à la collecte et à l’utilisation de vos informations comme 
+décrit dans cette politique.  
+
+Les informations collectées sont principalement utilisées pour :  
+- Traiter et gérer les commandes et l’historique des repas  
+- Personnaliser votre expérience  
+- Améliorer Kwala grâce aux analyses  
+- Répondre aux demandes de support  
+- Assurer la sécurité, prévenir la fraude et respecter la loi applicable
+
+Nous ne vendons pas vos données personnelles.
+
+## 4. Services Tiers
+Nous utilisons des services tiers de confiance pour exploiter et améliorer Kwala, notamment :  
+- Infrastructure cloud et hébergement de bases de données  
+- Services d’authentification  
+- Analyses et rapports de crash
+
+Ces fournisseurs traitent les données uniquement pour notre compte et sont contractuellement 
+tenus de respecter la confidentialité et la sécurité des données.
+
+## 5. Conservation des Données
+Vos données sont stockées en toute sécurité tant que votre compte est actif.  
+
+Vous pouvez demander la suppression de vos données personnelles à tout moment, et elles seront 
+supprimées rapidement.  
+
+Les comptes inactifs peuvent voir leurs données supprimées après une période de conservation 
+raisonnable conformément aux exigences légales et opérationnelles.
+
+## 6. Vos Droits
+Vous avez le droit de :  
+- Accéder à vos données  
+- Modifier vos données  
+- Supprimer vos données  
+- Vous opposer au traitement de vos données
+
+Contactez **info@kwala.app** pour exercer ces droits.
+
+## 7. Confidentialité des Enfants
+Kwala n’est pas destiné aux enfants de moins de 16 ans.  
+
+Nous ne collectons pas sciemment de données personnelles sur les enfants.  
+
+Si de telles données sont identifiées, elles seront supprimées rapidement.
+
+## 8. Sécurité
+Nous utilisons des mesures standard de l’industrie pour protéger vos données contre tout accès 
+non autorisé, altération ou perte, notamment :  
+- Chiffrement des données en transit et au repos  
+- Contrôles d’accès  
+- Infrastructure sécurisée
+
+## 9. Modifications de Cette Politique
+Nous pouvons mettre à jour cette politique de confidentialité de temps en temps.  
+
+Les modifications importantes seront communiquées via notification dans l’application **ET** par e-mail.  
+
+En continuant d’utiliser Kwala après les mises à jour, vous acceptez la nouvelle politique de confidentialité.
+
+## 10. Contact
+Pour toute question ou assistance, contactez-nous à :  
+- **E-mail :** info@kwala.app  
+- **Support dans l’application**

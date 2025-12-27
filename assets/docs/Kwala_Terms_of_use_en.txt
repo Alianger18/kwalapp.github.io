@@ -1,0 +1,107 @@
+**Terms of Use**
+**Effective Date:** January 1st, 2026
+
+Welcome to Kwala! Please read these Terms of Use carefully before using the app. By accessing or using Kwala, 
+you agree to be bound by these Terms. If you do not agree, please do not use the app.
+
+
+
+## 1. Acceptance of Terms
+
+By accessing or using Kwala, you agree to these Terms of Use. If we update or revise these Terms, your continued 
+use of the app constitutes acceptance of the updated Terms.
+
+## 2. Services Provided
+
+Kwala is a mobile platform that currently provides:
+
+* Meal delivery to your door via independent delivery contractors.
+* Takeaway or pickup orders at partner restaurants.
+* Restaurant browsing and menu exploration.
+* Future features may include table reservations and dine-in ordering.
+  Kwala facilitates orders and delivery but does not prepare food. Partner restaurants are solely responsible 
+for food quality, preparation, and order accuracy.
+
+## 3. User Accounts
+
+To use Kwala, you must create an account. You are responsible for maintaining the confidentiality of your login 
+credentials and for all activity that occurs under your account. Users under 16 are not permitted to create 
+accounts in accordance with our Privacy Policy. Users are responsible for providing accurate and up-to-date
+information.
+
+## 4. User-Generated Content
+
+You retain ownership of any content or data you create while using Kwala, including preferences, usage statistics, 
+and meal customizations. By using Kwala, you grant us permission to collect and use anonymized and aggregated data 
+solely for the purpose of improving the app and its services. No personal identifying information will be shared 
+without your consent.
+
+## 5. Acceptable Use / User Conduct
+
+You agree not to:
+
+* Violate any applicable laws or infringe the rights of others.
+* Harass, abuse, or threaten delivery contractors, restaurant staff, or other users.
+* Place fraudulent, misleading, or fake orders.
+* Attempt to reverse-engineer, hack, or disrupt Kwala or its services.
+  Repeated or serious violations may result in warnings, temporary suspension, or permanent termination of your 
+account at Kwala’s sole discretion.
+
+## 6. Orders, Payments & Cancellation
+
+Payment Methods: Currently, you can pay via cash on delivery or NFC tap-to-pay. In-app credit card payments are 
+not yet available and may be added in a future update.
+Order Responsibility: Partner restaurants are responsible for preparing and delivering orders accurately. Kwala 
+only facilitates the order process and does not prepare food.
+Cancellations: Please consult our Cancellation Policy within the app.
+
+## 7. Communications
+
+Kwala may send you notifications regarding your orders, app functionality, and other operational updates.
+You may also opt in to receive marketing communications. Your marketing preferences can be modified or withdrawn 
+at any time via your account settings.
+
+## 8. Privacy & Data Handling
+
+Kwala collects only the information necessary to provide its services.
+Delivery contractors can access only the data required to deliver orders accurately. Once the delivery is completed, 
+their access to your personal information is revoked. Any misconduct by delivery contractors should be reported to 
+Kwala support.
+Restaurants can access only the orders they are preparing, including the total amount and payment method.
+Personal information (such as name, phone number, and address) is shared only as necessary to fulfill orders. 
+We respect your privacy and do not disclose unnecessary data to other users or third parties.
+
+## 9. Disclaimer
+
+Kwala is provided “as-is”. While we strive for quality and reliability, we do not guarantee that the app will always 
+be error-free, uninterrupted, or available. Any meal suggestions, insights, or notifications are for informational 
+purposes only and do not constitute medical, nutritional, or professional advice. Kwala is not responsible for the 
+quality, safety, or timely delivery of food. These remain the responsibility of partner restaurants and independent 
+delivery contractors.
+
+## 10. Limitation of Liability
+
+To the maximum extent permitted by law, Kwala shall not be liable for any direct, indirect, incidental, or consequential 
+damage arising from your use of the app, including:
+
+* Issues with food quality, preparation, or accuracy.
+* Delivery delays, errors, or failures.
+* Actions or errors by third parties, including restaurants or delivery contractors.
+
+## 11. Governing Law & Dispute Resolution
+
+These Terms of Use are governed by the laws of Morocco. We encourage users and Kwala to resolve disputes amicably.
+If a dispute cannot be resolved through friendly discussion, it may be submitted to the competent courts of Morocco 
+for resolution.
+
+## 12. Changes to the Terms
+
+We may update these Terms from time to time. Significant changes will be communicated via in-app notifications, email, 
+or in-app banners. Continued use of Kwala after updates constitutes your acceptance of the revised Terms.
+
+## 13. Contact
+
+For questions, concerns, or support regarding these Terms, contact:
+
+* Email: [info@kwala.app](mailto:info@kwala.app)
+* In-app support: Accessible via your account settings.

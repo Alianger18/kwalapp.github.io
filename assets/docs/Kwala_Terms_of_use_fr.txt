@@ -1,0 +1,92 @@
+**Conditions d'Utilisation**
+**Date d'entrée en vigueur :** 1er janvier 2026
+
+Bienvenue sur Kwala ! Veuillez lire attentivement ces Conditions d'Utilisation avant d'utiliser l'application. 
+En accédant ou en utilisant Kwala, vous acceptez d'être lié par ces Conditions. Si vous n'êtes pas d'accord, 
+veuillez ne pas utiliser l'application.
+
+
+## 1. Acceptation des Conditions
+En accédant ou en utilisant Kwala, vous acceptez ces Conditions d'Utilisation. Si nous mettons à jour ou révisons 
+ces Conditions, votre utilisation continue de l'application constitue une acceptation des Conditions mises à jour.
+
+## 2. Services Fournis
+Kwala est une plateforme mobile qui fournit actuellement :
+- Livraison de repas à votre domicile via des coursiers indépendants.
+- Commandes à emporter ou à retirer auprès des restaurants partenaires.
+- Navigation dans les restaurants et exploration des menus.
+- Les fonctionnalités futures peuvent inclure la réservation de tables et la commande sur place.
+Kwala facilite les commandes et la livraison, mais ne prépare pas la nourriture. Les restaurants partenaires sont 
+seuls responsables de la qualité, de la préparation et de l'exactitude des commandes.
+
+## 3. Comptes Utilisateurs
+Pour utiliser Kwala, vous devez créer un compte. Vous êtes responsable de la confidentialité de vos identifiants 
+et de toute activité réalisée via votre compte. Les utilisateurs de moins de 16 ans ne sont pas autorisés à créer 
+un compte conformément à notre Politique de Confidentialité. Les utilisateurs doivent fournir des informations 
+exactes et à jour.
+
+## 4. Contenu Généré par l'Utilisateur
+Vous conservez la propriété de tout contenu ou données que vous créez en utilisant Kwala, y compris vos préférences, 
+statistiques d'utilisation et personnalisations de repas. En utilisant Kwala, vous nous autorisez à collecter et 
+utiliser des données anonymisées et agrégées uniquement pour améliorer l'application et ses services. Aucune 
+information personnelle ne sera partagée sans votre consentement.
+
+## 5. Utilisation Acceptable / Comportement de l'Utilisateur
+Vous acceptez de ne pas :
+- Violer les lois applicables ou les droits des autres.
+- Harceler, abuser ou menacer les coursiers, le personnel des restaurants ou d'autres utilisateurs.
+- Passer des commandes frauduleuses, trompeuses ou fictives.
+- Tenter de décompiler, pirater ou perturber Kwala ou ses services.
+Les violations répétées ou graves peuvent entraîner des avertissements, une suspension temporaire ou la résiliation 
+définitive de votre compte à la seule discrétion de Kwala.
+
+## 6. Commandes, Paiements et Annulations
+Méthodes de paiement : Actuellement, vous pouvez payer en espèces à la livraison ou via NFC tap-to-pay. Les paiements
+par carte bancaire intégrés à l'application ne sont pas encore disponibles mais pourront l'être dans une future mise 
+à jour.
+
+Responsabilité des commandes : Les restaurants partenaires sont responsables de la préparation et de la livraison 
+correcte des commandes. Kwala ne fait que faciliter le processus de commande.
+Annulations & Remboursements : Veuillez consulter notre Politique d’Annulation disponible dans l'application.
+
+## 7. Communications
+Kwala peut vous envoyer des notifications concernant vos commandes, le fonctionnement de l'application et d'autres 
+mises à jour opérationnelles. Vous pouvez également choisir de recevoir des communications marketing. Vos 
+préférences peuvent être modifiées ou retirées à tout moment via les paramètres de votre compte.
+
+## 8. Confidentialité & Gestion des Données
+Kwala collecte uniquement les informations nécessaires pour fournir ses services.
+Les coursiers n’ont accès qu’aux données nécessaires pour livrer les commandes avec précision. Une fois la livraison
+terminée, leur accès à vos informations personnelles est révoqué. Tout comportement inapproprié doit être signalé au
+support Kwala. Les restaurants n’ont accès qu’aux commandes qu’ils préparent, au montant total et au mode de paiement.
+Les informations personnelles (nom, numéro de téléphone, adresse) ne sont partagées que dans le strict nécessaire 
+pour exécuter les commandes.
+
+## 9. Avertissement
+Kwala est fourni “tel quel”. Bien que nous nous efforcions d’assurer qualité et fiabilité, nous ne garantissons 
+pas que l’application sera toujours exempte d’erreurs ou disponible sans interruption. Les suggestions, informations 
+ou notifications relatives aux repas sont uniquement à titre informatif et ne constituent pas un conseil médical, 
+nutritionnel ou professionnel. Kwala n’est pas responsable de la qualité, de la sécurité ou de la livraison 
+ponctuelle des repas. Cela reste de la responsabilité des restaurants partenaires et des coursiers indépendants.
+
+## 10. Limitation de Responsabilité
+Dans la mesure permise par la loi, Kwala ne pourra être tenu responsable des dommages directs, indirects, 
+accessoires ou consécutifs découlant de l’utilisation de l’application, notamment :
+- Problèmes de qualité, de préparation ou d’exactitude des repas.
+- Retards, erreurs ou échecs de livraison.
+- Actions ou erreurs de tiers, y compris restaurants ou coursiers.
+
+## 11. Droit Applicable & Résolution des Litiges
+Ces Conditions sont régies par les lois du Maroc. Nous encourageons les utilisateurs et Kwala à résoudre 
+les litiges à l’amiable. Si un litige ne peut être résolu par discussion, il peut être soumis aux tribunaux 
+compétents du Maroc.
+
+## 12. Modifications des Conditions
+Nous pouvons mettre à jour ces Conditions de temps à autre. Les modifications importantes seront communiquées 
+via notifications dans l’application, email ou bannières. L’utilisation continue de Kwala après modifications 
+constitue votre acceptation des Conditions mises à jour.
+
+## 13. Contact
+Pour toute question ou assistance concernant ces Conditions :
+- Email : info@kwala.app
+- Support intégré : Accessible via votre compte.
