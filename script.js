@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- 1. Infinite Logo Scroll Setup ---
-    const scroller = document.querySelector('.logo-scroll');
-    
+
+    // --- 1. Infinite Marquee/Logo Scroll Setup ---
+    // Matches the class in your HTML: .marquee-track
+    const scroller = document.querySelector('.marquee-track');
+
     if (scroller) {
-        // Clone the logo list for seamless looping
+        // We clone the content to ensure there is no empty space on wide screens
         const scrollerContent = Array.from(scroller.children);
-        
+
         scrollerContent.forEach(item => {
             const duplicatedItem = item.cloneNode(true);
             duplicatedItem.setAttribute('aria-hidden', true);
@@ -24,73 +25,69 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('is-visible');
+                // Optional: Stop observing once visible to save performance
+                observer.unobserve(entry.target);
             }
         });
     }, observerOptions);
 
-    // Target the feature boxes and hero text/image
-    const animatedElements = document.querySelectorAll('.feature-box, .hero-text, .hero-image, .partners');
+    // Added '.features-intro' to the list so the new section animates too
+    const animatedElements = document.querySelectorAll('.feature-box, .hero-text, .hero-image, .partners, .features-intro, .download-section');
     animatedElements.forEach(el => {
         el.classList.add('fade-in-section');
         observer.observe(el);
     });
 
     // --- 3. Smooth Scrolling for Header Links ---
-    const partnersLink = document.querySelector('a[href="#partners"]');
-    const featuresLink = document.querySelector('a[href="#features"]');
-
-    if (partnersLink) {
-        partnersLink.addEventListener('click', (e) => {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            const partnersSection = document.querySelector('.partners');
-            if (partnersSection) {
-                partnersSection.scrollIntoView({ behavior: 'smooth' });
+            const targetId = this.getAttribute('href');
+            const targetElement = document.querySelector(targetId);
+
+            if (targetElement) {
+                targetElement.scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
-    }
-
-    if (featuresLink) {
-        featuresLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            const featuresSection = document.querySelector('.features');
-            if (featuresSection) {
-                featuresSection.scrollIntoView({ behavior: 'smooth' });
-            }
-        });
-    }
+    });
 
     // --- 4. Language Dropdown Logic ---
-    const langSelector = document.querySelector('.lang-selector');
-    if (langSelector) {
-        // Create dropdown menu
-        const dropdown = document.createElement('div');
-        dropdown.className = 'lang-dropdown-menu';
-        dropdown.innerHTML = `
-            <div data-lang="EN">EN</div>
-            <div data-lang="FR">FR</div>
-            <div data-lang="AR">AR</div>
-        `;
-        document.body.appendChild(dropdown);
+    // We use the IDs we added to the HTML in the previous step
+    const langBtn = document.getElementById('langBtn');
+    const langDropdown = document.getElementById('langDropdown');
+    const currentLangSpan = document.getElementById('currentLang');
 
-        langSelector.addEventListener('click', (e) => {
+    if (langBtn && langDropdown) {
+        // Toggle dropdown on click
+        langBtn.addEventListener('click', (e) => {
             e.stopPropagation();
-            const rect = langSelector.getBoundingClientRect();
-            dropdown.style.top = `${rect.bottom + 5}px`;
-            dropdown.style.left = `${rect.left}px`;
-            dropdown.classList.toggle('show');
+            langDropdown.classList.toggle('show');
         });
 
         // Close dropdown when clicking outside
-        document.addEventListener('click', () => {
-            dropdown.classList.remove('show');
+        document.addEventListener('click', (e) => {
+            if (!langBtn.contains(e.target) && !langDropdown.contains(e.target)) {
+                langDropdown.classList.remove('show');
+            }
         });
 
         // Handle language selection
-        dropdown.querySelectorAll('div').forEach(item => {
-            item.addEventListener('click', () => {
-                const selectedLang = item.getAttribute('data-lang');
-                langSelector.querySelector('span').innerText = selectedLang;
-                // Here you would add logic to actually change the site language
+        const langOptions = langDropdown.querySelectorAll('div');
+        langOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                const selectedLang = option.getAttribute('data-lang');
+
+                // Update the text in the button
+                if(currentLangSpan) {
+                    currentLangSpan.textContent = selectedLang;
+                }
+
+                // Close the menu
+                langDropdown.classList.remove('show');
+
+                // Logic to actually change language would go here
                 console.log(`Language changed to: ${selectedLang}`);
             });
         });
