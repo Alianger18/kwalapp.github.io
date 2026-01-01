@@ -1,5 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // --- 0. Preloader Logic ---
+    window.addEventListener('load', () => {
+        const preloader = document.getElementById('preloader');
+        if (preloader) {
+            preloader.classList.add('hide');
+            setTimeout(() => {
+                preloader.style.display = 'none';
+            }, 500); // Match the transition duration
+        }
+    });
+
     // --- 1. Infinite Marquee/Logo Scroll Setup ---
     // Matches the class in your HTML: .marquee-track
     const scroller = document.querySelector('.marquee-track');
