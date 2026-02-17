@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kwala - Breathe</title>
+    <title data-i18n="page_title">Kwala - Breathe</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -11,9 +14,9 @@
 <!-- Preloader -->
 <div id="preloader">
     <div class="preloader-content">
-        <img src="assets/landing_kwala.png" alt="Kwala Mascot" class="preloader-mascot">
+        <img src="assets/splash_screen.png" alt="Kwala Mascot" class="preloader-mascot">
         <div class="preloader-text">
-            <span class="loading-text">Loading Kwala...</span>
+            <span class="loading-text" data-i18n="loading_text">Loading Kwala...</span>
             <div class="loading-bar">
                 <div class="loading-progress"></div>
             </div>
@@ -26,27 +29,32 @@
 
     <div class="nav-center">
         <nav class="nav-links">
-            <a href="#features">Why Kwala ?</a>
-            <a href="#partners">Partners</a>
-            <a href="#download">Order Now</a>
+            <a href="#features" data-i18n="nav_features">Why Kwala ?</a>
+            <a href="#partners" data-i18n="nav_partners">Partners</a>
+            <a href="#download" data-i18n="nav_order">Order Now</a>
         </nav>
     </div>
 
     <div class="header-right">
-        <div class="lang-selector">
-            <span>EN</span>
+        <div class="lang-selector" id="langBtn">
+            <span id="currentLang">EN</span>
             <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
+        </div>
+        <div class="lang-dropdown-menu" id="langDropdown">
+            <div data-lang="en">English</div>
+            <div data-lang="ar">العربية</div>
+            <div data-lang="fr">Français</div>
         </div>
     </div>
 </header>
 
 <section class="hero">
     <div class="hero-text">
-        <span class="hero-subtitle">Let's take care of that</span>
-        <h1>Snack <br> Attack ?</h1>
-        <p>Your all new delivery app for the best food in Khemisset, has just landed. In the palm of your hand.</p>
+        <span class="hero-subtitle" data-i18n="hero_subtitle">Let's take care of that</span>
+        <h1 data-i18n="hero_title">Snack <br> Attack ?</h1>
+        <p data-i18n="hero_desc">Your all new delivery app for the best food in Khemisset, has just landed. In the palm of your hand.</p>
     </div>
     <div class="hero-image">
         <img src="assets/landing_kwala.png" alt="Kwala Mascot">
@@ -54,8 +62,8 @@
 </section>
 
 <section id="partners" class="partners">
-    <span class="section-subtitle">Our Partners</span>
-    <h3>Simply, The Best You Can Wish For</h3>
+    <span class="section-subtitle" data-i18n="partners_subtitle">Our Partners</span>
+    <h3 data-i18n="partners_title">Simply, The Best You Can Wish For</h3>
 
     <div class="marquee">
         <div class="marquee-track">
@@ -80,14 +88,14 @@
 <section id="features" class="features">
     <div class="features-intro">
         <div class="intro-header">
-            <span class="intro-subtitle">Clarity</span>
-            <h2>See What You're Taking, <br> Don't Imagine It</h2>
+            <span class="intro-subtitle" data-i18n="features_intro_subtitle">Clarity</span>
+            <h2 data-i18n="features_intro_title">See What You're Taking, <br> Don't Imagine It</h2>
         </div>
 
         <!-- Bottom: Split Content (Text Left, Visuals Right) -->
         <div class="intro-split-content">
             <div class="intro-text-side">
-                <p class="comparison-caption">Say Goodbye to the old stock photos, Meet the new Item cards, with REAL photos of REAL food.</p>
+                <p class="comparison-caption" data-i18n="features_intro_desc">Say Goodbye to the old stock photos, Meet the new Item cards, with REAL photos of REAL food.</p>
             </div>
 
             <div class="intro-visual-side">
@@ -105,16 +113,16 @@
             <img src="assets/images/illustrations/sheering_kwala.png" alt="Sheering Kwala" class="feature-illustration">
         </div>
         <div class="feature-box feature-text">
-            <span class="feature-subtitle">Transparent Pricing</span>
-            <span class="feature-title">Place Fees + Service Fees</span>
-            <p class="feature-desc">We don’t do crazy fees. It’s the same amount you’ll pay in the restaurant plus the location-based service fees. You want to pick it up from the restaurant ? Awesome, we won’t charge you a penny for the service fees.</p>
+            <span class="feature-subtitle" data-i18n="feature1_subtitle">Transparent Pricing</span>
+            <span class="feature-title" data-i18n="feature1_title">Place Fees + Service Fees</span>
+            <p class="feature-desc" data-i18n="feature1_desc">We don’t do crazy fees. It’s the same amount you’ll pay in the restaurant plus the location-based service fees. You want to pick it up from the restaurant ? Awesome, we won’t charge you a penny for the service fees.</p>
         </div>
 
         <!-- Row 2 -->
         <div class="feature-box feature-text">
-            <span class="feature-subtitle">Flexibility</span>
-            <span class="feature-title">Wrong Order ? Cancel It</span>
-            <p class="feature-desc">Made an order by error ? Kwala offers you a 5 minutes window of free cancellation. No pressure.</p>
+            <span class="feature-subtitle" data-i18n="feature2_subtitle">Flexibility</span>
+            <span class="feature-title" data-i18n="feature2_title">Wrong Order ? Cancel It</span>
+            <p class="feature-desc" data-i18n="feature2_desc">Made an order by error ? Kwala offers you a 5 minutes window of free cancellation. No pressure.</p>
         </div>
         <div class="feature-box feature-empty">
             <img src="assets/images/illustrations/thinking_kwala.png" alt="Thinking Kwala" class="feature-illustration">
@@ -125,16 +133,16 @@
             <img src="assets/images/illustrations/cool_kwala.png" alt="Cool Kwala" class="feature-illustration">
         </div>
         <div class="feature-box feature-text">
-            <span class="feature-subtitle">Control</span>
-            <span class="feature-title">Your Meal, Your Calls</span>
-            <p class="feature-desc">We provide you with a store-specific set of customizations going from how you want your meal cooked to what ingredients to keep or to add. We don’t call it YOUR Meal for nothing.</p>
+            <span class="feature-subtitle" data-i18n="feature3_subtitle">Control</span>
+            <span class="feature-title" data-i18n="feature3_title">Your Meal, Your Calls</span>
+            <p class="feature-desc" data-i18n="feature3_desc">We provide you with a store-specific set of customizations going from how you want your meal cooked to what ingredients to keep or to add. We don’t call it YOUR Meal for nothing.</p>
         </div>
 
         <!-- Row 4 -->
         <div class="feature-box feature-text">
-            <span class="feature-subtitle">Convenience</span>
-            <span class="feature-title">Pay With Ease</span>
-            <p class="feature-desc">With integrating cards payments as one of our priorities, We do Tap and Pay so you can use Your watch, phone, or card as your wallet. Cash ? That’s a method we’ll ALWAYS support.</p>
+            <span class="feature-subtitle" data-i18n="feature4_subtitle">Convenience</span>
+            <span class="feature-title" data-i18n="feature4_title">Pay With Ease</span>
+            <p class="feature-desc" data-i18n="feature4_desc">With integrating cards payments as one of our priorities, We do Tap and Pay so you can use Your watch, phone, or card as your wallet. Cash ? That’s a method we’ll ALWAYS support.</p>
         </div>
         <div class="feature-box feature-empty">
             <img src="assets/images/illustrations/confused_kwala.png" alt="Confused Kwala" class="feature-illustration">
@@ -144,20 +152,20 @@
 
 <section id="download" class="download-section">
     <div class="download-content">
-        <p class="download-subtitle">Convinced. What are you waiting for ?</p>
-        <h2>Download the app & <br> Order Now !</h2>
+        <p class="download-subtitle" data-i18n="download_subtitle">Convinced. What are you waiting for ?</p>
+        <h2 data-i18n="download_title">Download the app & <br> Order Now !</h2>
         <div class="store-buttons">
             <button class="store-btn">
                 <span class="icon">▶</span>
                 <div class="btn-text">
-                    <span class="small">GET IT ON</span>
+                    <span class="small" data-i18n="get_it_on">GET IT ON</span>
                     <span class="large">Google Play</span>
                 </div>
             </button>
             <button class="store-btn">
                 <span class="icon"></span>
                 <div class="btn-text">
-                    <span class="small">Download on the</span>
+                    <span class="small" data-i18n="download_on">Download on the</span>
                     <span class="large">App Store</span>
                 </div>
             </button>
@@ -172,7 +180,7 @@
 <div id="floating-order-btn">
     <a href="#download">
         <span class="btn-icon">🍔</span>
-        <span>Order Now</span>
+        <span data-i18n="floating_order">Order Now</span>
     </a>
 </div>
 
@@ -181,22 +189,22 @@
         <div class="footer-top">
             <div class="footer-brand">
                 <span class="footer-logo">Kwala</span>
-                <span class="footer-sub">Breathe</span>
+                <span class="footer-sub" data-i18n="footer_slogan">Breathe</span>
             </div>
 
             <div class="footer-nav-group">
                 <div class="nav-column">
-                    <h4>Discover</h4>
+                    <h4 data-i18n="footer_discover">Discover</h4>
                     <ul>
-                        <li><a href="about.html">About Us</a></li>
-                        <li><a href="terms.html">Terms of Use</a></li>
-                        <li><a href="privacy.html">Privacy Policy</a></li>
+                        <li><a href="about.html" data-i18n="footer_about" data-link="about">About Us</a></li>
+                        <li><a href="terms.html" data-i18n="footer_terms" data-link="terms">Terms of Use</a></li>
+                        <li><a href="privacy.html" data-i18n="footer_privacy" data-link="privacy">Privacy Policy</a></li>
                     </ul>
                 </div>
                 <div class="nav-column">
-                    <h4>Contact</h4>
+                    <h4 data-i18n="footer_contact">Contact</h4>
                     <ul>
-                        <li><a href="mailto:support@kwala.com">Support</a></li>
+                        <li><a href="mailto:support@kwala.com" data-i18n="footer_support">Support</a></li>
                         <li><a href="#">Facebook</a></li>
                         <li><a href="#">Instagram</a></li>
                         <li><a href="#">WhatsApp</a></li>
@@ -205,7 +213,7 @@
             </div>
         </div>
 
-        <div class="footer-bottom">
+        <div class="footer-bottom" data-i18n="footer_copyright">
             &copy; 2026 Kwala. All rights reserved.
         </div>
     </div>
