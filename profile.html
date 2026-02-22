@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kwala Profile</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- Chart.js for data visualization -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bento-dashboard-body">
+
+<!-- ===========================
+     SIDEBAR NAVIGATION
+     Contains: Logo, Navigation links, Logout
+=========================== -->
+<aside class="bento-sidebar">
+    <div class="sidebar-logo">
+        <span class="logo-icon">Kwala</span>
+    </div>
+    <div class="bento-sidebar-nav">
+        <!-- Dashboard link -->
+        <div class="bento-nav-item" data-tooltip="Dashboard">
+            <a href="dashboard.html"><i class="fas fa-th-large"></i>dashboard</a>
+        </div>
+        <!-- Analytics link -->
+        <div class="bento-nav-item" data-tooltip="Analytics">
+            <a href="analytics.html"><i class="fas fa-chart-line"></i>Analytics</a>
+        </div>
+        <!-- Placeholder links (non-functional) -->
+        <div class="bento-nav-item" data-tooltip="Reports">
+            <a href="#"><i class="fas fa-file-alt"></i>Reports</a>
+        </div>
+        <div class="bento-nav-item" data-tooltip="Settings">
+            <a href="#"><i class="fas fa-cog"></i>Settings</a>
+        </div>
+        <!-- Profile link (active) -->
+        <div class="bento-nav-item active" data-tooltip="Profile">
+            <a href="profile.html"><i class="fas fa-user"></i>Profile</a>
+        </div>
+    </div>
+    <!-- Logout button -->
+    <div class="sidebar-footer">
+        <div class="bento-nav-item" data-tooltip="Logout">
+            <a href="#"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
+    </div>
+</aside>
+
+<!-- ===========================
+     MAIN CONTENT AREA
+=========================== -->
+<main class="bento-main-content profile-main-content">
+    
+    <!-- ===========================
+         PROFILE HEADER SECTION
+         Contains: Cover image, Avatar, User info, Badges
+    =========================== -->
+    <div class="profile-header">
+        <!-- Cover image with gradient effect -->
+        <div class="profile-cover">
+            <div class="cover-gradient"></div>
+        </div>
+        
+        <!-- Profile info: Avatar, Name, Email, Phone, Badges -->
+        <div class="profile-info">
+            <div class="profile-avatar-container">
+                <div class="profile-avatar">
+                    <img src="assets/landing_kwala.png" alt="Profile" id="profileImage">
+                    <label class="avatar-edit-btn" for="avatarUpload">
+                        <i class="fas fa-camera"></i>
+                    </label>
+                    <input type="file" id="avatarUpload" accept="image/*" hidden>
+                </div>
+            </div>
+            
+            <!-- User details -->
+            <div class="profile-details">
+                <h1>barir ali</h1>
+                <p class="profile-email"><i class="fas fa-envelope"></i> barir.ali@email.com</p>
+                <p class="profile-phone"><i class="fas fa-phone"></i> +212 6XX XXX XXX</p>
+                <div class="profile-badges">
+                    <span class="badge premium"><i class="fas fa-crown"></i> Premium Member</span>
+                    <span class="badge verified"><i class="fas fa-check-circle"></i> Verified</span>
+                </div>
+            </div>
+            
+            <!-- Action buttons -->
+            <div class="profile-actions">
+                <button class="btn-edit-profile"><i class="fas fa-edit"></i> Edit Profile</button>
+                <button class="btn-settings"><i class="fas fa-cog"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===========================
+         PROFILE STATS SECTION
+         Shows: Total Orders, Spent, Favorites, Addresses
+    =========================== -->
+    <div class="profile-stats">
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
+            <div class="stat-value"><span class="counter" data-target="127">0</span></div>
+            <div class="stat-label">Total Orders</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-dollar-sign"></i></div>
+            <div class="stat-value">$<span class="counter" data-target="2450">0</span></div>
+            <div class="stat-label">Total Spent</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-heart"></i></div>
+            <div class="stat-value"><span class="counter" data-target="23">0</span></div>
+            <div class="stat-label">Favorites</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon"><i class="fas fa-map-marker-alt"></i></div>
+            <div class="stat-value"><span class="counter" data-target="5">0</span></div>
+            <div class="stat-label">Addresses</div>
+        </div>
+    </div>
+
+    <!-- ===========================
+         MAIN PROFILE CONTENT GRID
+         Two-column layout: Left (Personal Info) | Right (Activity)
+    =========================== -->
+    <div class="profile-grid-container">
+        
+        <!-- ===========================
+             LEFT COLUMN
+             Contains: Personal Info, Addresses, Payment Methods
+        =========================== -->
+        <div class="profile-left-column">
+            
+            <!-- Personal Information Card -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-user"></i> Personal Information</h3>
+                    <button class="btn-icon-small"><i class="fas fa-pencil-alt"></i></button>
+                </div>
+                <div class="card-body">
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Full Name</label>
+                            <span>barir ali</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Email</label>
+                            <span>barir.ali@email.com</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Phone</label>
+                            <span>+212 6XX XXX XXX</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Date of Birth</label>
+                            <span>January 15, 1997</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Gender</label>
+                            <span>Male</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Member Since</label>
+                            <span>January 2024</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Saved Addresses Card -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-map-marker-alt"></i> Saved Addresses</h3>
+                    <button class="btn-icon-small"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="card-body">
+                    <div class="address-list">
+                        <div class="address-item active">
+                            <div class="address-icon"><i class="fas fa-home"></i></div>
+                            <div class="address-details">
+                                <h4>Home <span class="address-tag">Default</span></h4>
+                                <p>123 Rue Mohammed V, Apt 4B</p>
+                                <p>Khemisset, Morocco</p>
+                            </div>
+                            <div class="address-actions">
+                                <button><i class="fas fa-edit"></i></button>
+                                <button><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="address-item">
+                            <div class="address-icon"><i class="fas fa-briefcase"></i></div>
+                            <div class="address-details">
+                                <h4>Work</h4>
+                                <p>456 Avenue Hassan II, Floor 3</p>
+                                <p>Khemisset, Morocco</p>
+                            </div>
+                            <div class="address-actions">
+                                <button><i class="fas fa-edit"></i></button>
+                                <button><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="address-item">
+                            <div class="address-icon"><i class="fas fa-university"></i></div>
+                            <div class="address-details">
+                                <h4>University</h4>
+                                <p>789 Campus Road, Building A</p>
+                                <p>Khemisset, Morocco</p>
+                            </div>
+                            <div class="address-actions">
+                                <button><i class="fas fa-edit"></i></button>
+                                <button><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment Methods Card -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-credit-card"></i> Payment Methods</h3>
+                    <button class="btn-icon-small"><i class="fas fa-plus"></i></button>
+                </div>
+                <div class="card-body">
+                    <div class="payment-list">
+                        <div class="payment-item">
+                            <div class="card-visual">
+                                <div class="card-chip"></div>
+                                <div class="card-number">•••• •••• •••• 4589</div>
+                                <div class="card-expiry">12/26</div>
+                                <div class="card-brand">VISA</div>
+                            </div>
+                            <div class="payment-actions">
+                                <span class="card-default">Default</span>
+                                <button><i class="fas fa-edit"></i></button>
+                                <button><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                        <div class="payment-item">
+                            <div class="card-visual mastercard">
+                                <div class="card-chip"></div>
+                                <div class="card-number">•••• •••• •••• 8823</div>
+                                <div class="card-expiry">08/25</div>
+                                <div class="card-brand">MASTERCARD</div>
+                            </div>
+                            <div class="payment-actions">
+                                <button class="btn-set-default">Set Default</button>
+                                <button><i class="fas fa-edit"></i></button>
+                                <button><i class="fas fa-trash"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cash-option">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Cash on Delivery</span>
+                        <label class="switch">
+                            <input type="checkbox" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===========================
+             RIGHT COLUMN
+             Contains: Recent Orders, Account Settings, Favorites, Security
+        =========================== -->
+        <div class="profile-right-column">
+            
+            <!-- Recent Orders Card -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-shopping-bag"></i> Recent Orders</h3>
+                    <a href="dashboard.html" class="view-all-link">View All</a>
+                </div>
+                <div class="card-body">
+                    <div class="order-list">
+                        <div class="order-item">
+                            <div class="order-status delivered">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="order-details">
+                                <h4>Moul Shawarma</h4>
+                                <p>2 items • $24.50</p>
+                                <span class="order-date">Today, 2:30 PM</span>
+                            </div>
+                            <button class="btn-reorder">Reorder</button>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-status delivered">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="order-details">
+                                <h4>Simo Tacos</h4>
+                                <p>3 items • $18.00</p>
+                                <span class="order-date">Yesterday, 7:45 PM</span>
+                            </div>
+                            <button class="btn-reorder">Reorder</button>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-status delivered">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="order-details">
+                                <h4>Threez Burger</h4>
+                                <p>1 item • $12.00</p>
+                                <span class="order-date">Jan 28, 2026</span>
+                            </div>
+                            <button class="btn-reorder">Reorder</button>
+                        </div>
+                        <div class="order-item">
+                            <div class="order-status delivered">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="order-details">
+                                <h4>Zakaria Food</h4>
+                                <p>4 items • $32.50</p>
+                                <span class="order-date">Jan 25, 2026</span>
+                            </div>
+                            <button class="btn-reorder">Reorder</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Account Settings Card -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-cog"></i> Account Settings</h3>
+                </div>
+                <div class="card-body">
+                    <div class="settings-list">
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <i class="fas fa-bell"></i>
+                                <div>
+                                    <h4>Notifications</h4>
+                                    <p>Order updates, promotions, and alerts</p>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <i class="fas fa-envelope"></i>
+                                <div>
+                                    <h4>Email Notifications</h4>
+                                    <p>Receive emails about your orders</p>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <i class="fas fa-sms"></i>
+                                <div>
+                                    <h4>SMS Notifications</h4>
+                                    <p>Receive SMS for order updates</p>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <i class="fas fa-globe"></i>
+                                <div>
+                                    <h4>Language</h4>
+                                    <p>Choose your preferred language</p>
+                                </div>
+                            </div>
+                            <select class="language-select">
+                                <option value="en" selected>English</option>
+                                <option value="ar">العربية</option>
+                                <option value="fr">Français</option>
+                            </select>
+                        </div>
+                        <div class="settings-item">
+                            <div class="settings-info">
+                                <i class="fas fa-moon"></i>
+                                <div>
+                                    <h4>Dark Mode</h4>
+                                    <p>Switch to dark theme</p>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Favorite Restaurants Card -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-heart"></i> Favorite Restaurants</h3>
+                    <span class="item-count">23</span>
+                </div>
+                <div class="card-body">
+                    <div class="favorites-scroll">
+                        <div class="favorite-item">
+                            <img src="assets/images/partners/moul_shawarma_banner.png" alt="Moul Shawarma">
+                            <span>Moul Shawarma</span>
+                        </div>
+                        <div class="favorite-item">
+                            <img src="assets/images/partners/simo_tacos_banner.png" alt="Simo Tacos">
+                            <span>Simo Tacos</span>
+                        </div>
+                        <div class="favorite-item">
+                            <img src="assets/images/partners/threez_banner.png" alt="Threez">
+                            <span>Threez</span>
+                        </div>
+                        <div class="favorite-item">
+                            <img src="assets/images/partners/zakaria_food_banner.png" alt="Zakaria">
+                            <span>Zakaria Food</span>
+                        </div>
+                        <div class="favorite-item more">
+                            <i class="fas fa-plus"></i>
+                            <span>View All</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Card -->
+            <div class="profile-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-shield-alt"></i> Security</h3>
+                </div>
+                <div class="card-body">
+                    <div class="security-list">
+                        <div class="security-item">
+                            <div class="security-info">
+                                <i class="fas fa-lock"></i>
+                                <div>
+                                    <h4>Change Password</h4>
+                                    <p>Last changed 30 days ago</p>
+                                </div>
+                            </div>
+                            <button class="btn-secondary">Change</button>
+                        </div>
+                        <div class="security-item">
+                            <div class="security-info">
+                                <i class="fas fa-mobile-alt"></i>
+                                <div>
+                                    <h4>Two-Factor Authentication</h4>
+                                    <p>Add an extra layer of security</p>
+                                </div>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="security-item">
+                            <div class="security-info">
+                                <i class="fas fa-history"></i>
+                                <div>
+                                    <h4>Login History</h4>
+                                    <p>View your account activity</p>
+                                </div>
+                            </div>
+                            <button class="btn-secondary">View</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Logout Button -->
+            <button class="btn-logout">
+                <i class="fas fa-sign-out-alt"></i> Log Out
+            </button>
+        </div>
+    </div>
+</main>
+
+<!-- ===========================
+     SCRIPTS
+=========================== -->
+<script src="script.js"></script>
+</body>
+</html>

@@ -5,60 +5,345 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kwala Analytics</title>
     <link rel="stylesheet" href="styles.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body class="bento-dashboard-body">
 
+<!-- ===========================
+     SIDEBAR NAVIGATION
+     Contains: Logo, Navigation links, Logout
+=========================== -->
 <aside class="bento-sidebar">
+    <div class="sidebar-logo">
+        <span class="logo-icon">Kwala</span>
+    </div>
     <div class="bento-sidebar-nav">
-        <div class="bento-nav-item"><a href="dashboard.html">Dashboard</a></div>
-        <div class="bento-nav-item active">Analytics</div>
-        <div class="bento-nav-item">Reports</div>
-        <div class="bento-nav-item">Settings</div>
-        <div class="bento-nav-item">Profile</div>
+        <!-- Dashboard link -->
+        <div class="bento-nav-item" data-tooltip="Dashboard">
+            <a href="dashboard.html"><i class="fas fa-th-large"></i>dashboard</a>
+        </div>
+        <!-- Analytics link (active) -->
+        <div class="bento-nav-item active" data-tooltip="Analytics">
+            <a href="analytics.html"><i class="fas fa-chart-line"></i>Analytics</a>
+        </div>
+        <!-- Placeholder links (non-functional) -->
+        <div class="bento-nav-item" data-tooltip="Reports">
+            <a href="#"><i class="fas fa-file-alt"></i>Reports</a>
+        </div>
+        <div class="bento-nav-item" data-tooltip="Settings">
+            <a href="#"><i class="fas fa-cog"></i>Settings</a>
+        </div>
+        <!-- Profile link -->
+        <div class="bento-nav-item" data-tooltip="Profile">
+            <a href="profile.html"><i class="fas fa-user"></i>Profile</a>
+        </div>
+    </div>
+    <!-- Logout button -->
+    <div class="sidebar-footer">
+        <div class="bento-nav-item" data-tooltip="Logout">
+            <a href="#"><i class="fas fa-sign-out-alt"></i></a>
+        </div>
     </div>
 </aside>
 
+<!-- ===========================
+     MAIN CONTENT AREA
+=========================== -->
 <main class="bento-main-content">
-    <header class="analytics-header">
-        <h1>Analytics Dashboard</h1>
-        <p>A deep dive into your performance metrics.</p>
-    </header>
+    
+    <!-- ===========================
+         PAGE WRAPPER
+    =========================== -->
+    <div class="analytics-page-wrapper">
+        
+        <!-- ===========================
+             BACKGROUND EFFECTS
+             Animated orbs for visual enhancement
+        =========================== -->
+        <div class="analytics-bg">
+            <div class="orb orb-1"></div>
+            <div class="orb orb-2"></div>
+            <div class="orb orb-3"></div>
+        </div>
 
-    <div class="analytics-kpi-grid">
-        <div class="analytics-kpi-card">
-            <div class="kpi-title">Total Revenue (All Time)</div>
-            <div class="kpi-value">$25,480</div>
+        <!-- ===========================
+             HEADER SECTION
+             Contains: Page title, Date picker, Export button
+        =========================== -->
+        <div class="analytics-header">
+            <div class="header-content">
+                <div class="header-text">
+                    <h1>Analytics</h1>
+                    <p>Track your performance and insights</p>
+                </div>
+                <div class="header-actions">
+                    <!-- Date Range Picker -->
+                    <div class="date-range-picker">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Last 7 Days</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <!-- Export Button -->
+                    <button class="export-btn">
+                        <i class="fas fa-download"></i>
+                        <span>Export</span>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div class="analytics-kpi-card">
-            <div class="kpi-title">Total Orders (All Time)</div>
-            <div class="kpi-value">1,120</div>
+
+        <!-- ===========================
+             KPI GRID SECTION
+             Contains: Key Performance Indicators cards
+        =========================== -->
+        <div class="analytics-kpi-grid">
+            
+            <!-- KPI Card 1: Total Revenue -->
+            <div class="analytics-kpi-card">
+                <div class="card-glow"></div>
+                <div class="kpi-icon-wrapper">
+                    <div class="kpi-icon">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-title">Total Revenue</div>
+                    <div class="kpi-value-container">
+                        <span class="kpi-value">$8,540</span>
+                        <span class="kpi-period">This Week</span>
+                    </div>
+                    <div class="kpi-trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        12.5%
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Card 2: Total Orders -->
+            <div class="analytics-kpi-card">
+                <div class="card-glow"></div>
+                <div class="kpi-icon-wrapper">
+                    <div class="kpi-icon orders">
+                        <i class="fas fa-shopping-bag"></i>
+                    </div>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-title">Total Orders</div>
+                    <div class="kpi-value-container">
+                        <span class="kpi-value">342</span>
+                        <span class="kpi-period">This Week</span>
+                    </div>
+                    <div class="kpi-trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        8.2%
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Card 3: Average Order Value -->
+            <div class="analytics-kpi-card">
+                <div class="card-glow"></div>
+                <div class="kpi-icon-wrapper">
+                    <div class="kpi-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-title">Avg Order Value</div>
+                    <div class="kpi-value-container">
+                        <span class="kpi-value">$24.97</span>
+                        <span class="kpi-period">This Week</span>
+                    </div>
+                    <div class="kpi-trend down">
+                        <i class="fas fa-arrow-down"></i>
+                        2.1%
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Card 4: Customer Lifetime Value -->
+            <div class="analytics-kpi-card">
+                <div class="card-glow"></div>
+                <div class="kpi-icon-wrapper">
+                    <div class="kpi-icon clv">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-title">Customer LTV</div>
+                    <div class="kpi-value-container">
+                        <span class="kpi-value">$156</span>
+                        <span class="kpi-period">Lifetime</span>
+                    </div>
+                    <div class="kpi-trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        5.4%
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Card 5: Customer Acquisition Cost -->
+            <div class="analytics-kpi-card">
+                <div class="card-glow"></div>
+                <div class="kpi-icon-wrapper">
+                    <div class="kpi-icon cac">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-title">CAC</div>
+                    <div class="kpi-value-container">
+                        <span class="kpi-value">$12.50</span>
+                        <span class="kpi-period">Per User</span>
+                    </div>
+                    <div class="kpi-trend down">
+                        <i class="fas fa-arrow-down"></i>
+                        3.2%
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Card 6: Average Delivery Time -->
+            <div class="analytics-kpi-card">
+                <div class="card-glow"></div>
+                <div class="kpi-icon-wrapper">
+                    <div class="kpi-icon time">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-title">Avg Delivery</div>
+                    <div class="kpi-value-container">
+                        <span class="kpi-value time-value">28 min</span>
+                    </div>
+                    <div class="kpi-trend up">
+                        <i class="fas fa-arrow-up"></i>
+                        4.1%
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Card 7: Top Restaurant -->
+            <div class="analytics-kpi-card">
+                <div class="card-glow"></div>
+                <div class="kpi-icon-wrapper">
+                    <div class="kpi-icon restaurant">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-title">Top Restaurant</div>
+                    <div class="kpi-value-container">
+                        <span class="kpi-value restaurant-name">Moul Shawarma</span>
+                    </div>
+                    <div class="kpi-badge">
+                        <i class="fas fa-star"></i>
+                        4.9 Rating
+                    </div>
+                </div>
+                <div class="restaurant-visual">
+                    <div class="taco-icon">🌮</div>
+                    <div class="rating-stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KPI Card 8: Active Customers -->
+            <div class="analytics-kpi-card">
+                <div class="card-glow"></div>
+                <div class="kpi-icon-wrapper">
+                    <div class="kpi-icon customer">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="kpi-progress-ring">
+                        <svg>
+                            <circle class="ring-bg" cx="28" cy="28" r="25"></circle>
+                            <circle class="ring-progress" cx="28" cy="28" r="25" stroke-dasharray="75, 100"></circle>
+                        </svg>
+                        <span class="ring-value">75%</span>
+                    </div>
+                </div>
+                <div class="kpi-content">
+                    <div class="kpi-title">Active Customers</div>
+                    <div class="kpi-value-container">
+                        <span class="kpi-value customer-name">1,247</span>
+                        <span class="kpi-period">This Month</span>
+                    </div>
+                    <div class="customer-avatar">JD</div>
+                    <div class="kpi-customer-stats">
+                        <div class="stat">
+                            <span class="stat-num">89%</span>
+                            <span class="stat-label">Retention</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-num">3.2</span>
+                            <span class="stat-label">Orders/Mo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-        <div class="analytics-kpi-card">
-            <div class="kpi-title">Customer Lifetime Value</div>
-            <div class="kpi-value">$180.50</div>
+
+        <!-- ===========================
+             SECONDARY STATS SECTION
+             Additional metrics in mini cards
+        =========================== -->
+        <div class="secondary-stats">
+            <div class="stat-card-mini">
+                <div class="mini-icon">
+                    <i class="fas fa-percentage"></i>
+                </div>
+                <div class="mini-content">
+                    <span class="mini-value">4.8%</span>
+                    <span class="mini-label">Conversion Rate</span>
+                </div>
+                <span class="mini-trend up">+0.5%</span>
+            </div>
+            <div class="stat-card-mini">
+                <div class="mini-icon">
+                    <i class="fas fa-star"></i>
+                </div>
+                <div class="mini-content">
+                    <span class="mini-value">4.6</span>
+                    <span class="mini-label">Avg Rating</span>
+                </div>
+                <span class="mini-trend up">+0.2</span>
+            </div>
+            <div class="stat-card-mini">
+                <div class="mini-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="mini-content">
+                    <span class="mini-value">12%</span>
+                    <span class="mini-label">Cart Abandonment</span>
+                </div>
+                <span class="mini-trend down">-2%</span>
+            </div>
+            <div class="stat-card-mini">
+                <div class="mini-icon">
+                    <i class="fas fa-truck"></i>
+                </div>
+                <div class="mini-content">
+                    <span class="mini-value">94%</span>
+                    <span class="mini-label">On-Time Delivery</span>
+                </div>
+                <span class="mini-trend up">+1.5%</span>
+            </div>
         </div>
-        <div class="analytics-kpi-card">
-            <div class="kpi-title">Customer Acquisition Cost</div>
-            <div class="kpi-value">$15.20</div>
-        </div>
-        <div class="analytics-kpi-card">
-            <div class="kpi-title">Peak Order Time</div>
-            <div class="kpi-value">7:30 PM</div>
-        </div>
-        <div class="analytics-kpi-card">
-            <div class="kpi-title">Top Restaurant</div>
-            <div class="kpi-value">O'Tacos</div>
-        </div>
-        <div class="analytics-kpi-card">
-            <div class="kpi-title">Avg. Delivery Time</div>
-            <div class="kpi-value">28 min</div>
-        </div>
-        <div class="analytics-kpi-card">
-            <div class="kpi-title">Most Frequent Customer</div>
-            <div class="kpi-value">Y. Ait</div>
-        </div>
+
     </div>
 </main>
 
+<!-- ===========================
+     SCRIPTS
+=========================== -->
+<script src="script.js"></script>
 </body>
 </html>
