@@ -20,31 +20,24 @@
         <span class="logo-icon">Kwala</span>
     </div>
     <div class="bento-sidebar-nav">
-        <!-- Dashboard link (active) -->
-        <div class="bento-nav-item active" data-tooltip="Dashboard">
-            <a href="dashboard.html"><i class="fas fa-th-large"></i>dashboard</a>
+        <div class="bento-nav-item active">
+            <a href="dashboard.html"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
         </div>
-        <!-- Analytics link -->
-        <div class="bento-nav-item" data-tooltip="Analytics">
-            <a href="analytics.html"><i class="fas fa-chart-line"></i>Analytics</a>
+        <div class="bento-nav-item">
+            <a href="analytics.html"><i class="fas fa-chart-line"></i><span>Analytics</span></a>
         </div>
-        <!-- Placeholder links (non-functional) -->
-        <div class="bento-nav-item" data-tooltip="Reports">
-            <a href="#"><i class="fas fa-file-alt"></i>Reports</a>
+        <div class="bento-nav-item">
+            <a href="#"><i class="fas fa-file-alt"></i><span>Reports</span></a>
         </div>
-        <div class="bento-nav-item" data-tooltip="Settings">
-            <a href="#"><i class="fas fa-cog"></i>Settings</a>
+        <div class="bento-nav-item">
+            <a href="#"><i class="fas fa-cog"></i><span>Settings</span></a>
         </div>
-        <!-- Profile link -->
-        <div class="bento-nav-item" data-tooltip="Profile">
-            <a href="profile.html"><i class="fas fa-user"></i>Profile</a>
+        <div class="bento-nav-item">
+            <a href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a>
         </div>
     </div>
-    <!-- Logout button -->
     <div class="sidebar-footer">
-        <div class="bento-nav-item" data-tooltip="Logout">
-            <a href="#"><i class="fas fa-sign-out-alt"></i></a>
-        </div>
+        <a href="login.html" class="sidebar-login">Login</a>
     </div>
 </aside>
 
@@ -52,118 +45,188 @@
      MAIN CONTENT AREA
 =========================== -->
 <main class="bento-main-content">
-    
+
+    <div style="background: #1e1e2f; color: #00ffcc; padding: 15px; margin-bottom: 20px; border-radius: 8px; max-height: 400px; overflow-y: auto;">
+        <h4 style="margin-top: 0; color: #fff;">API Response Debug (<a href="#" onclick="document.getElementById('apiDebugOutput').innerHTML = 'Cleared.'; return false;" style="color:#00ffcc;">Clear</a>)</h4>
+        <pre id="apiDebugOutput" style="font-family: monospace; font-size: 12px; white-space: pre-wrap; word-wrap: break-word;">Waiting for API response...</pre>
+    </div>
+
     <!-- ===========================
-         TOP SECTION: KPI Cards & Orders Chart
+         1. GREETING + TIME FRAME BAR
     =========================== -->
-    <div class="bento-grid-container">
-        
-        <!-- Left Column: KPIs and Main Chart -->
-        <div class="bento-left-column">
-            <!-- KPI Cards Row -->
-            <div class="kpi-grid">
-                <!-- KPI 1: Today's Revenue -->
-                <div class="kpi-card">
-                    <div class="kpi-title">Today's Revenue</div>
-                    <div class="kpi-value">
-                        <span class="counter" data-target="1250">0</span>
-                        <span class="kpi-trend up">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                <path d="M7 17l5-5 5 5M7 7l5 5 5-5"/>
-                            </svg>
-                            12.5%
-                        </span>
-                    </div>
-                </div>
-                
-                <!-- KPI 2: Today's Orders -->
-                <div class="kpi-card">
-                    <div class="kpi-title">Today's Orders</div>
-                    <div class="kpi-value">
-                        <span class="counter" data-target="55">0</span>
-                        <span class="kpi-trend up">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                <path d="M7 17l5-5 5 5M7 7l5 5 5-5"/>
-                            </svg>
-                            8.2%
-                        </span>
-                    </div>
-                </div>
-                
-                <!-- KPI 3: Average Order Value -->
-                <div class="kpi-card">
-                    <div class="kpi-title">Average Order Value</div>
-                    <div class="kpi-value">
-                        $<span class="counter-decimal" data-target="22.73">0.00</span>
-                        <span class="kpi-trend down">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
-                                <path d="M7 7l5 5 5-5M7 17l5-5 5 5"/>
-                            </svg>
-                            2.1%
-                        </span>
-                    </div>
-                </div>
+    <div class="dash-greeting-bar">
+        <h1 class="dash-greeting" id="dashGreeting">Good morning</h1>
+        <div class="dash-controls">
+            <div class="timeframe-pills">
+                <button class="tf-pill active">12 months</button>
+                <button class="tf-pill">30 days</button>
+                <button class="tf-pill">7 days</button>
+                <button class="tf-pill">24 hours</button>
             </div>
-            
-            <!-- Main Graph: Orders Chart -->
-            <div class="bento-card main-graph">
-                <canvas id="ordersChart"></canvas>
-            </div>
-        </div>
-        
-        <!-- Right Column: Recent Orders Activity Feed -->
-        <div class="bento-right-column">
-            <div class="bento-card activity-feed">
-                <h3>Recent Orders</h3>
-                <div class="table-container">
-                    <table>
-                        <tbody>
-                            <tr>
-                                <td>#KW1254</td>
-                                <td>ali barir</td>
-                                <td>$25.50</td>
-                            </tr>
-                            <tr>
-                                <td>#KW1253</td>
-                                <td>yassine harmati</td>
-                                <td>$15.00</td>
-                            </tr>
-                            <tr>
-                                <td>#KW1252</td>
-                                <td>abdelkader barir</td>
-                                <td>$40.10</td>
-                            </tr>
-                            <tr>
-                                <td>#KW1251</td>
-                                <td>naoufal harmati</td>
-                                <td>$8.75</td>
-                            </tr>
-                             <tr>
-                                <td>#KW1250</td>
-                                <td>lehcen goudad`</td>
-                                <td>$32.00</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <button class="dash-btn-outline" id="btnSelectDates">
+                <i class="fas fa-calendar-alt"></i> Select dates
+            </button>
+            <button class="dash-btn-outline" id="btnFilters">
+                <i class="fas fa-sliders-h"></i> Filters
+            </button>
         </div>
     </div>
 
     <!-- ===========================
-         BOTTOM SECTION: Yearly Sales Chart
+         2. KPI CARDS (full-width row)
     =========================== -->
-    <div class="yearly-sales-container">
-        <div class="bento-card">
-            <h3>Yearly Sales</h3>
-            <canvas id="yearlySalesChart"></canvas>
+    <div class="kpi-grid">
+        <!-- KPI 1: Revenue -->
+        <div class="kpi-card">
+            <div class="kpi-accent">
+                <svg viewBox="0 0 36 36" class="kpi-ring">
+                    <circle cx="18" cy="18" r="15" fill="none" stroke="#EDE9FE" stroke-width="4"/>
+                    <circle cx="18" cy="18" r="15" fill="none" stroke="#7C3AED" stroke-width="4" stroke-dasharray="70 100" stroke-linecap="round" transform="rotate(-90 18 18)"/>
+                </svg>
+            </div>
+            <div class="kpi-info">
+                <div class="kpi-title">Revenue</div>
+                <div class="kpi-value">$<span class="counter" data-target="46740">0</span></div>
+            </div>
+            <span class="kpi-trend up">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="12" height="12"><path d="M7 17l5-5 5 5"/></svg>
+                12%
+            </span>
+        </div>
+        <!-- KPI 2: Users -->
+        <div class="kpi-card">
+            <div class="kpi-accent">
+                <svg viewBox="0 0 36 36" class="kpi-ring">
+                    <circle cx="18" cy="18" r="15" fill="none" stroke="#D1FAE5" stroke-width="4"/>
+                    <circle cx="18" cy="18" r="15" fill="none" stroke="#10B981" stroke-width="4" stroke-dasharray="55 100" stroke-linecap="round" transform="rotate(-90 18 18)"/>
+                </svg>
+            </div>
+            <div class="kpi-info">
+                <div class="kpi-title">Users</div>
+                <div class="kpi-value"><span class="counter" data-target="380">0</span></div>
+            </div>
+            <span class="kpi-trend down">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="12" height="12"><path d="M7 7l5 5 5-5"/></svg>
+                0.5%
+            </span>
+        </div>
+        <!-- KPI 3: Sales -->
+        <div class="kpi-card">
+            <div class="kpi-accent">
+                <svg viewBox="0 0 36 36" class="kpi-ring">
+                    <circle cx="18" cy="18" r="15" fill="none" stroke="#DBEAFE" stroke-width="4"/>
+                    <circle cx="18" cy="18" r="15" fill="none" stroke="#3B82F6" stroke-width="4" stroke-dasharray="60 100" stroke-linecap="round" transform="rotate(-90 18 18)"/>
+                </svg>
+            </div>
+            <div class="kpi-info">
+                <div class="kpi-title">Sales</div>
+                <div class="kpi-value"><span class="counter" data-target="1328">0</span></div>
+            </div>
+            <span class="kpi-trend up">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="12" height="12"><path d="M7 17l5-5 5 5"/></svg>
+                3.7%
+            </span>
         </div>
     </div>
+
+    <!-- ===========================
+         3. CHARTS SECTION (Revenue overview + side KPIs)
+    =========================== -->
+    <div class="dash-charts-row">
+        <!-- Main Chart -->
+        <div class="dash-chart-main">
+            <div class="dash-chart-header">
+                <div class="dash-chart-title">
+                    <span>Revenue overview</span>
+                    <i class="fas fa-info-circle" style="color:#aaa; font-size:0.8rem; margin-left:4px;"></i>
+                </div>
+                <div class="dash-chart-actions">
+                    <span class="chart-legend-dot" style="background:#7C3AED;"></span> 2025
+                    <span class="chart-legend-dot" style="background:#DCD0F0; margin-left:12px;"></span> 2024
+                    <button class="dash-btn-sm purple"><i class="fas fa-download"></i> Export</button>
+                    <button class="dash-btn-sm"><i class="fas fa-ellipsis-h"></i></button>
+                </div>
+            </div>
+            <div class="dash-chart-canvas-wrap">
+                <canvas id="ordersChart"></canvas>
+            </div>
+        </div>
+        <!-- Side KPIs -->
+        <div class="dash-side-kpis">
+            <div class="kpi-card mini">
+                <div class="kpi-accent">
+                    <svg viewBox="0 0 36 36" class="kpi-ring">
+                        <circle cx="18" cy="18" r="15" fill="none" stroke="#DBEAFE" stroke-width="4"/>
+                        <circle cx="18" cy="18" r="15" fill="none" stroke="#3B82F6" stroke-width="4" stroke-dasharray="62 100" stroke-linecap="round" transform="rotate(-90 18 18)"/>
+                    </svg>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-title">Customer LTV</div>
+                    <div class="kpi-value">$156</div>
+                </div>
+                <span class="kpi-trend up">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="10" height="10"><path d="M7 17l5-5 5 5"/></svg>
+                    5.4%
+                </span>
+            </div>
+            <div class="kpi-card mini">
+                <div class="kpi-accent">
+                    <svg viewBox="0 0 36 36" class="kpi-ring">
+                        <circle cx="18" cy="18" r="15" fill="none" stroke="#E0E7FF" stroke-width="4"/>
+                        <circle cx="18" cy="18" r="15" fill="none" stroke="#6366F1" stroke-width="4" stroke-dasharray="75 100" stroke-linecap="round" transform="rotate(-90 18 18)"/>
+                    </svg>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-title">Active Customers</div>
+                    <div class="kpi-value">1,247</div>
+                </div>
+                <span class="kpi-trend up">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="10" height="10"><path d="M7 17l5-5 5 5"/></svg>
+                    9.1%
+                </span>
+            </div>
+            <div class="kpi-card mini">
+                <div class="kpi-accent">
+                    <svg viewBox="0 0 36 36" class="kpi-ring">
+                        <circle cx="18" cy="18" r="15" fill="none" stroke="#FEF3C7" stroke-width="4"/>
+                        <circle cx="18" cy="18" r="15" fill="none" stroke="#F59E0B" stroke-width="4" stroke-dasharray="50 100" stroke-linecap="round" transform="rotate(-90 18 18)"/>
+                    </svg>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-title">Avg Delivery</div>
+                    <div class="kpi-value">28 min</div>
+                </div>
+                <span class="kpi-trend up">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="10" height="10"><path d="M7 17l5-5 5 5"/></svg>
+                    4.1%
+                </span>
+            </div>
+            <div class="kpi-card mini">
+                <div class="kpi-accent">
+                    <svg viewBox="0 0 36 36" class="kpi-ring">
+                        <circle cx="18" cy="18" r="15" fill="none" stroke="#FCE7F3" stroke-width="4"/>
+                        <circle cx="18" cy="18" r="15" fill="none" stroke="#EC4899" stroke-width="4" stroke-dasharray="40 100" stroke-linecap="round" transform="rotate(-90 18 18)"/>
+                    </svg>
+                </div>
+                <div class="kpi-info">
+                    <div class="kpi-title">CAC</div>
+                    <div class="kpi-value">$12.50</div>
+                </div>
+                <span class="kpi-trend down">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" width="10" height="10"><path d="M7 7l5 5 5-5"/></svg>
+                    3.2%
+                </span>
+            </div>
+        </div>
+    </div>
+
 </main>
 
 <!-- ===========================
      SCRIPTS
 =========================== -->
 <script src="script.js"></script>
+<script src="runtime-config.js"></script>
+<script type="module" src="auth-guard.js"></script>
 </body>
 </html>

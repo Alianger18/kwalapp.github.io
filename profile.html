@@ -21,31 +21,24 @@
         <span class="logo-icon">Kwala</span>
     </div>
     <div class="bento-sidebar-nav">
-        <!-- Dashboard link -->
-        <div class="bento-nav-item" data-tooltip="Dashboard">
-            <a href="dashboard.html"><i class="fas fa-th-large"></i>dashboard</a>
+        <div class="bento-nav-item">
+            <a href="dashboard.html"><i class="fas fa-th-large"></i><span>Dashboard</span></a>
         </div>
-        <!-- Analytics link -->
-        <div class="bento-nav-item" data-tooltip="Analytics">
-            <a href="analytics.html"><i class="fas fa-chart-line"></i>Analytics</a>
+        <div class="bento-nav-item">
+            <a href="analytics.html"><i class="fas fa-chart-line"></i><span>Analytics</span></a>
         </div>
-        <!-- Placeholder links (non-functional) -->
-        <div class="bento-nav-item" data-tooltip="Reports">
-            <a href="#"><i class="fas fa-file-alt"></i>Reports</a>
+        <div class="bento-nav-item">
+            <a href="#"><i class="fas fa-file-alt"></i><span>Reports</span></a>
         </div>
-        <div class="bento-nav-item" data-tooltip="Settings">
-            <a href="#"><i class="fas fa-cog"></i>Settings</a>
+        <div class="bento-nav-item">
+            <a href="#"><i class="fas fa-cog"></i><span>Settings</span></a>
         </div>
-        <!-- Profile link (active) -->
-        <div class="bento-nav-item active" data-tooltip="Profile">
-            <a href="profile.html"><i class="fas fa-user"></i>Profile</a>
+        <div class="bento-nav-item active">
+            <a href="profile.html"><i class="fas fa-user"></i><span>Profile</span></a>
         </div>
     </div>
-    <!-- Logout button -->
     <div class="sidebar-footer">
-        <div class="bento-nav-item" data-tooltip="Logout">
-            <a href="#"><i class="fas fa-sign-out-alt"></i></a>
-        </div>
+        <a href="login.html" class="sidebar-login">Login</a>
     </div>
 </aside>
 
@@ -492,5 +485,7 @@
      SCRIPTS
 =========================== -->
 <script src="script.js"></script>
+<script src="runtime-config.js"></script>
+<script type="module" src="auth-guard.js"></script>
 </body>
 </html>

@@ -214,6 +214,211 @@ function loadProfileData() {
     }
 }
 
+function trimTrailingSlashes(value) {
+    return String(value || '').replace(/\/+$/, '');
+}
+
+function getApiBaseUrl() {
+    return trimTrailingSlashes(window.KWALA_API_BASE_URL || '');
+}
+
+function buildRuntimeApiUrl(path, queryParams) {
+    const baseUrl = getApiBaseUrl();
+    if (!baseUrl) {
+        return null;
+    }
+
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+    const url = new URL(`${baseUrl}${normalizedPath}`);
+
+    if (queryParams && typeof queryParams === 'object') {
+        Object.entries(queryParams).forEach(([key, value]) => {
+            if (value !== undefined && value !== null && value !== '') {
+                url.searchParams.set(key, String(value));
+            }
+        });
+    }
+
+    return url.toString();
+}
+
+function getApiTokenFromStorage() {
+    return localStorage.getItem('kwala_api_token') || sessionStorage.getItem('kwala_api_token') || '';
+}
+
+async function fetchApiJson(url) {
+    const token = getApiTokenFromStorage();
+    const headers = token ? { Authorization: `Bearer ${token}` } : {};
+    const response = await fetch(url, { headers });
+
+    if (!response.ok) {
+        throw new Error(`API request failed with status ${response.status}`);
+    }
+
+    return response.json();
+}
+
+function asArray(value) {
+    return Array.isArray(value) ? value : [];
+}
+
+function asTotal(payload) {
+    const parsed = Number(payload && payload.total);
+    if (Number.isFinite(parsed)) {
+        return parsed;
+    }
+
+    return asArray(payload && payload.items).length;
+}
+
+function toAmount(value) {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function sumOrderAmounts(items) {
+    return asArray(items).reduce((sum, item) => sum + toAmount(item && item.total_amount), 0);
+}
+
+function countDistinct(items, key) {
+    const values = new Set();
+
+    asArray(items).forEach((item) => {
+        const value = item && item[key];
+        if (value !== undefined && value !== null && value !== '') {
+            values.add(value);
+        }
+    });
+
+    return values.size;
+}
+
+function getTopRestaurantLabel(items) {
+    const counts = new Map();
+
+    asArray(items).forEach((item) => {
+        const restaurantId = item && item.restaurant_id;
+        if (restaurantId === undefined || restaurantId === null || restaurantId === '') {
+            return;
+        }
+
+        counts.set(restaurantId, (counts.get(restaurantId) || 0) + 1);
+    });
+
+    if (counts.size === 0) {
+        return 'No data';
+    }
+
+    let topRestaurantId = null;
+    let topCount = -1;
+
+    counts.forEach((count, restaurantId) => {
+        if (count > topCount) {
+            topRestaurantId = restaurantId;
+            topCount = count;
+        }
+    });
+
+    return `Restaurant #${topRestaurantId}`;
+}
+
+function getLast7DayLabels() {
+    const formatter = new Intl.DateTimeFormat('en-US', { weekday: 'short' });
+    const labels = [];
+
+    for (let offset = 6; offset >= 0; offset -= 1) {
+        const date = new Date();
+        date.setDate(date.getDate() - offset);
+        labels.push(formatter.format(date));
+    }
+
+    return labels;
+}
+
+function buildDailyCounts(items) {
+    const labels = getLast7DayLabels();
+    const counts = labels.map(() => 0);
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    start.setDate(start.getDate() - 6);
+
+    asArray(items).forEach((item) => {
+        const rawDate = item && item.created_at;
+        if (!rawDate) {
+            return;
+        }
+
+        const createdAt = new Date(rawDate);
+        if (Number.isNaN(createdAt.getTime()) || createdAt < start) {
+            return;
+        }
+
+        const dayIndex = Math.floor((createdAt - start) / (24 * 60 * 60 * 1000));
+        if (dayIndex >= 0 && dayIndex < counts.length) {
+            counts[dayIndex] += 1;
+        }
+    });
+
+    return { labels, counts };
+}
+
+let adminOrdersSnapshotPromise = null;
+
+async function fetchAdminOrdersSnapshot() {
+    if (adminOrdersSnapshotPromise) {
+        return adminOrdersSnapshotPromise;
+    }
+
+    const ordersUrl = buildRuntimeApiUrl('/admin/orders', { skip: 0, limit: 500 });
+    const inProgressUrl = buildRuntimeApiUrl('/admin/orders/in-progress', { skip: 0, limit: 500 });
+
+    if (!ordersUrl || !inProgressUrl) {
+        return null;
+    }
+
+    adminOrdersSnapshotPromise = Promise.all([fetchApiJson(ordersUrl), fetchApiJson(inProgressUrl)])
+        .then(([ordersPayload, inProgressPayload]) => {
+            const ordersItems = asArray(ordersPayload && ordersPayload.items);
+            const inProgressItems = asArray(inProgressPayload && inProgressPayload.items);
+            
+            // Output to the debug div
+            const apiDebugOutput = document.getElementById('apiDebugOutput');
+            if (apiDebugOutput) {
+                const debugInfo = {
+                    ordersTotal: ordersPayload?.total,
+                    ordersCount: ordersItems.length,
+                    firstOrder: ordersItems[0],
+                    inProgressTotal: inProgressPayload?.total,
+                    inProgressCount: inProgressItems.length,
+                    firstInProgress: inProgressItems[0],
+                };
+                apiDebugOutput.textContent = JSON.stringify(debugInfo, null, 2);
+            }
+
+            return {
+                orders: {
+                    total: asTotal(ordersPayload),
+                    items: ordersItems,
+                },
+                inProgress: {
+                    total: asTotal(inProgressPayload),
+                    items: inProgressItems,
+                },
+            };
+        })
+        .catch((error) => {
+            adminOrdersSnapshotPromise = null;
+            // Display error in debug container as well
+            const apiDebugOutput = document.getElementById('apiDebugOutput');
+            if (apiDebugOutput) {
+                apiDebugOutput.textContent = 'Error fetching data: ' + error.message;
+            }
+            throw error;
+        });
+
+    return adminOrdersSnapshotPromise;
+}
+
 // ========================================
 // DASHBOARD PAGE JavaScript - Enhanced Version
 // ========================================
@@ -223,10 +428,27 @@ function initDashboard() {
         return false;
     }
 
-    // Add floating orbs to dashboard background
-    addDashboardBackgroundEffects();
+    // --- Dynamic Greeting ---
+    const greetingEl = document.getElementById('dashGreeting');
+    if (greetingEl) {
+        const h = new Date().getHours();
+        const storedName = sessionStorage.getItem('userName') || '';
+        const name = storedName.split(' ')[0];
+        let msg = 'Good evening';
+        if (h < 12) msg = 'Good morning';
+        else if (h < 18) msg = 'Good afternoon';
+        greetingEl.textContent = name ? msg + ', ' + name : msg;
+    }
 
-    // Enhanced Animated Counter for KPI Values with number rolling effect
+    // --- Time-frame pill toggle ---
+    document.querySelectorAll('.tf-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            document.querySelectorAll('.tf-pill').forEach(p => p.classList.remove('active'));
+            pill.classList.add('active');
+        });
+    });
+
+    // Animated Counter for KPI Values
     const counters = document.querySelectorAll('.counter');
     const decimalCounters = document.querySelectorAll('.counter-decimal');
     
@@ -248,21 +470,17 @@ function initDashboard() {
             
             element.textContent = formatNumber(current);
             
-            // Add glow effect during animation
             if (progress < 1) {
-                element.style.textShadow = '0 0 20px rgba(124, 58, 237, 0.5)';
                 requestAnimationFrame(updateCounter);
             } else {
                 element.textContent = formatNumber(target);
-                element.style.textShadow = 'none';
             }
         };
         
         requestAnimationFrame(updateCounter);
     };
     
-    // Start counter animations with staggered delay
-    setTimeout(() => {
+    function runKpiCounterAnimation() {
         counters.forEach((counter, index) => {
             const target = parseFloat(counter.dataset.target);
             setTimeout(() => {
@@ -276,60 +494,63 @@ function initDashboard() {
                 animateCounter(counter, target, 1500, true);
             }, index * 150);
         });
-    }, 500);
-    
-    // Add 3D tilt effect to KPI cards
-    addTiltEffectToCards();
-    
-    // Add staggered animation to table rows
-    animateTableRows();
-    
-    // Chart.js Configuration with enhanced effects
-    
-    // 1. Orders Line Chart with animated drawing
-    const lineCtx = document.getElementById('ordersChart').getContext('2d');
-    const lineGradient = lineCtx.createLinearGradient(0, 0, 0, 300);
-    lineGradient.addColorStop(0, 'rgba(220, 208, 240, 0.8)');
-    lineGradient.addColorStop(1, 'rgba(220, 208, 240, 0)');
+    }
 
-    new Chart(lineCtx, {
-        type: 'line',
+    // Start counter animations with staggered delay
+    setTimeout(runKpiCounterAnimation, 300);
+    
+    // Chart.js — Revenue Overview (grouped bar chart)
+    const barCanvas = document.getElementById('ordersChart');
+    if (!barCanvas || typeof Chart === 'undefined') {
+        return true;
+    }
+
+    const barCtx = barCanvas.getContext('2d');
+
+    const chart = new Chart(barCtx, {
+        type: 'bar',
         data: {
-            labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
-            datasets: [{
-                label: 'Orders',
-                data: [12, 19, 8, 17, 22, 30, 25],
-                backgroundColor: lineGradient,
-                borderColor: '#463C6E',
-                borderWidth: 3,
-                pointBackgroundColor: '#463C6E',
-                pointRadius: 6,
-                pointHoverRadius: 10,
-                pointBorderColor: '#fff',
-                pointBorderWidth: 2,
-                tension: 0.4,
-                fill: true
-            }]
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [
+                {
+                    label: 'Orders',
+                    data: [38, 42, 35, 48, 40, 45, 32, 50, 55, 60, 58, 62],
+                    backgroundColor: '#7C3AED',
+                    borderRadius: 4,
+                    borderSkipped: false,
+                    barPercentage: 0.55,
+                    categoryPercentage: 0.7,
+                },
+                {
+                    label: 'In Progress',
+                    data: [28, 32, 25, 35, 30, 33, 22, 38, 40, 42, 45, 48],
+                    backgroundColor: '#DCD0F0',
+                    borderRadius: 4,
+                    borderSkipped: false,
+                    barPercentage: 0.55,
+                    categoryPercentage: 0.7,
+                }
+            ]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            scales: { 
-                y: { 
+            scales: {
+                y: {
                     beginAtZero: true,
-                    grid: {
-                        color: 'rgba(70, 60, 110, 0.08)'
-                    }
+                    grid: { color: 'rgba(70, 60, 110, 0.06)' },
+                    ticks: { font: { size: 11 }, color: '#aaa' },
+                    border: { display: false }
                 },
                 x: {
-                    grid: {
-                        display: false
-                    }
+                    grid: { display: false },
+                    ticks: { font: { size: 11 }, color: '#aaa' },
+                    border: { display: false }
                 }
             },
             plugins: { legend: { display: false } },
             animation: {
-                duration: 2000,
+                duration: 1400,
                 easing: 'easeOutQuart'
             },
             interaction: {
@@ -339,181 +560,41 @@ function initDashboard() {
         }
     });
 
-    // 2. Yearly Sales Bar Chart with animated bars
-    const barCtx = document.getElementById('yearlySalesChart').getContext('2d');
-    
-    // Create gradient for bars
-    const barGradient = barCtx.createLinearGradient(0, 0, 0, 300);
-    barGradient.addColorStop(0, '#7C3AED');
-    barGradient.addColorStop(1, '#DCD0F0');
-    
-    new Chart(barCtx, {
-        type: 'bar',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            datasets: [{
-                label: 'Monthly Sales',
-                data: [12000, 19000, 15000, 21000, 18000, 22000, 25000, 23000, 20000, 24000, 27000, 30000],
-                backgroundColor: barGradient,
-                borderColor: '#463C6E',
-                borderWidth: 1,
-                borderRadius: 8,
-                borderSkipped: false,
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: { 
-                y: { 
-                    beginAtZero: true,
-                    grid: {
-                        color: 'rgba(70, 60, 110, 0.08)'
-                    }
-                },
-                x: {
-                    grid: {
-                        display: false
-                    }
-                }
-            },
-            plugins: { 
-                legend: { display: false }
-            },
-            animation: {
-                duration: 1500,
-                easing: 'easeOutQuart'
-            },
-            hover: {
-                backgroundColor: 'rgba(124, 58, 237, 0.2)',
+    fetchAdminOrdersSnapshot()
+        .then((snapshot) => {
+            if (!snapshot) {
+                return;
             }
-        }
-    });
 
-    // Add smooth scroll reveal for dashboard elements
-    addScrollRevealToDashboard();
+            const revenue = Math.round(sumOrderAmounts(snapshot.orders.items));
+            const activeRiders = countDistinct(snapshot.inProgress.items, 'boy_id');
+
+            if (counters[0]) {
+                counters[0].dataset.target = String(revenue);
+            }
+
+            if (counters[1]) {
+                counters[1].dataset.target = String(activeRiders);
+            }
+
+            if (counters[2]) {
+                counters[2].dataset.target = String(snapshot.orders.total);
+            }
+
+            runKpiCounterAnimation();
+
+            const ordersSeries = buildDailyCounts(snapshot.orders.items);
+            const inProgressSeries = buildDailyCounts(snapshot.inProgress.items);
+            chart.data.labels = ordersSeries.labels;
+            chart.data.datasets[0].data = ordersSeries.counts;
+            chart.data.datasets[1].data = inProgressSeries.counts;
+            chart.update();
+        })
+        .catch((error) => {
+            console.warn('Dashboard live data unavailable:', error.message);
+        });
 
     return true;
-}
-
-// Add floating orbs and particle effects to dashboard background
-function addDashboardBackgroundEffects() {
-    const body = document.querySelector('.bento-dashboard-body');
-    if (!body) return;
-
-    // Create floating orbs
-    for (let i = 0; i < 5; i++) {
-        const orb = document.createElement('div');
-        orb.className = 'dashboard-orb';
-        orb.style.cssText = `
-            position: fixed;
-            width: ${Math.random() * 300 + 200}px;
-            height: ${Math.random() * 300 + 200}px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(124, 58, 237, 0.15) 0%, transparent 70%);
-            pointer-events: none;
-            z-index: 0;
-            animation: orbFloat ${15 + Math.random() * 10}s ease-in-out infinite;
-            animation-delay: ${Math.random() * 5}s;
-            left: ${Math.random() * 100}%;
-            top: ${Math.random() * 100}%;
-        `;
-        body.appendChild(orb);
-    }
-
-    // Add custom animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes orbFloat {
-            0%, 100% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(30px, -30px) scale(1.1); }
-            50% { transform: translate(-20px, 20px) scale(0.95); }
-            75% { transform: translate(20px, 30px) scale(1.05); }
-        }
-        
-        .dashboard-orb:nth-child(odd) {
-            background: radial-gradient(circle, rgba(244, 113, 182, 0.1) 0%, transparent 70%);
-        }
-    `;
-    document.head.appendChild(style);
-}
-
-// Add 3D tilt effect to dashboard cards
-function addTiltEffectToCards() {
-    const cards = document.querySelectorAll('.kpi-card, .bento-card');
-    
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 15;
-            const rotateY = (centerX - x) / 15;
-            
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-            card.style.zIndex = '10';
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-            card.style.zIndex = '1';
-        });
-    });
-}
-
-// Animate table rows with staggered effect
-function animateTableRows() {
-    const rows = document.querySelectorAll('.activity-feed tbody tr');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = '1';
-                entry.target.style.transform = 'translateX(0)';
-            }
-        });
-    }, { threshold: 0.1 });
-    
-    rows.forEach((row, index) => {
-        row.style.opacity = '0';
-        row.style.transform = 'translateX(-30px)';
-        row.style.transition = `all 0.5s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.1}s`;
-        observer.observe(row);
-    });
-}
-
-// Add scroll reveal animations to dashboard elements
-function addScrollRevealToDashboard() {
-    const elements = document.querySelectorAll('.kpi-card, .bento-card, .yearly-sales-container');
-    
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('dashboard-reveal');
-            }
-        });
-    }, { threshold: 0.1 });
-    
-    elements.forEach((el, index) => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(40px) scale(0.95)';
-        el.style.transition = `all 0.8s cubic-bezier(0.16, 1, 0.3, 1) ${index * 0.15}s`;
-        observer.observe(el);
-    });
-    
-    // Add CSS for reveal
-    const style = document.createElement('style');
-    style.textContent = `
-        .dashboard-reveal {
-            opacity: 1 !important;
-            transform: translateY(0) scale(1) !important;
-        }
-    `;
-    document.head.appendChild(style);
 }
 
 // ========================================
@@ -561,54 +642,74 @@ function initAnalytics() {
         });
     }
 
-    // 3D Tilt Effect
-    function initTiltEffect() {
-        const cards = document.querySelectorAll('[data-tilt]');
-        
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 20;
-                const rotateY = (centerX - x) / 20;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) scale(1)';
-            });
-        });
-    }
-
     // Staggered Entrance Animation
     function staggerEntrance() {
         const cards = document.querySelectorAll('.analytics-kpi-card');
         
         cards.forEach((card, index) => {
             card.style.opacity = '0';
-            card.style.transform = 'translateY(50px) scale(0.9)';
+            card.style.transform = 'translateY(16px)';
             
             setTimeout(() => {
-                card.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+                card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
                 card.style.opacity = '1';
-                card.style.transform = 'translateY(0) scale(1)';
-            }, index * 100);
+                card.style.transform = 'translateY(0)';
+            }, index * 60);
         });
     }
 
     // Initialize
     staggerEntrance();
+
+    function setCardValueByTitle(title, value) {
+        const targetCard = Array.from(document.querySelectorAll('.analytics-kpi-card')).find((card) => {
+            const titleEl = card.querySelector('.kpi-title');
+            return titleEl && titleEl.textContent.trim().toLowerCase() === title.toLowerCase();
+        });
+
+        if (!targetCard) {
+            return;
+        }
+
+        const valueEl = targetCard.querySelector('.kpi-value');
+        if (valueEl) {
+            valueEl.textContent = value;
+        }
+    }
+
+    fetchAdminOrdersSnapshot()
+        .then((snapshot) => {
+            if (!snapshot) {
+                return;
+            }
+
+            const totalOrders = snapshot.orders.total;
+            const totalRevenue = sumOrderAmounts(snapshot.orders.items);
+            const avgOrderValue = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+            const inProgressCount = snapshot.inProgress.total;
+            const activeRiders = countDistinct(snapshot.inProgress.items, 'boy_id');
+            const topRestaurant = getTopRestaurantLabel(snapshot.orders.items);
+
+            setCardValueByTitle('Total Revenue', `$${totalRevenue.toFixed(2)}`);
+            setCardValueByTitle('Total Orders', totalOrders.toLocaleString());
+            setCardValueByTitle('Avg Order Value', `$${avgOrderValue.toFixed(2)}`);
+            setCardValueByTitle('Avg Delivery', `${inProgressCount} live`);
+            setCardValueByTitle('Top Restaurant', topRestaurant);
+            setCardValueByTitle('Active Customers', activeRiders.toLocaleString());
+
+            const ringValue = document.querySelector('.ring-value');
+            if (ringValue) {
+                const activityRate = totalOrders > 0 ? Math.min(100, Math.round((inProgressCount / totalOrders) * 100)) : 0;
+                ringValue.textContent = `${activityRate}%`;
+            }
+        })
+        .catch((error) => {
+            console.warn('Analytics live data unavailable:', error.message);
+        });
     
     setTimeout(() => {
         animateCounters();
-        initTiltEffect();
-    }, 800);
+    }, 400);
 
     // Re-animate on scroll (for secondary stats)
     let secondaryAnimated = false;
@@ -746,17 +847,6 @@ function initProfile() {
             }, 2000);
         });
     });
-
-    // Logout Handler
-    const logoutBtn = document.querySelector('.btn-logout');
-    if (logoutBtn) {
-        logoutBtn.addEventListener('click', function() {
-            if(confirm('Are you sure you want to log out?')) {
-                // In a real app, this would handle logout
-                console.log('Logging out...');
-            }
-        });
-    }
 
     return true;
 }
@@ -972,6 +1062,7 @@ function initIndex() {
             nav_features: "Why Kwala ?",
             nav_partners: "Partners",
             nav_order: "Order Now",
+            nav_login: "Login",
             hero_subtitle: "Let's take care of that",
             hero_title: "Snack <br> Attack ?",
             hero_desc: "Your all new delivery app for the best food in Khemisset, has just landed. In the palm of your hand.",
@@ -1012,6 +1103,7 @@ function initIndex() {
             nav_features: "لماذا كوالا ؟",
             nav_partners: "شركاؤنا",
             nav_order: "اطلب الآن",
+            nav_login: "تسجيل الدخول",
             hero_subtitle: "دعنا نهتم بذلك",
             hero_title: "جوعان ؟ <br> اطلب الآن",
             hero_desc: "تطبيق التوصيل الجديد لأفضل المأكولات في الخميسات، وصل للتو. بين يديك.",
@@ -1052,6 +1144,7 @@ function initIndex() {
             nav_features: "Pourquoi Kwala ?",
             nav_partners: "Partenaires",
             nav_order: "Commander",
+            nav_login: "Connexion",
             hero_subtitle: "Laissez-nous s'en occuper",
             hero_title: "Une petite <br> faim ?",
             hero_desc: "Votre nouvelle application de livraison pour les meilleurs plats à Khemisset vient d'arriver. Au creux de votre main.",
@@ -1256,6 +1349,14 @@ function initIndex() {
 }
 
 // ========================================
+// AUTH / LOGIN PAGE — handled by auth-login.js (Firebase module)
+// initLogin() is now a no-op; kept for backward compatibility
+// ========================================
+function initLogin() {
+    return false;
+}
+
+// ========================================
 // INITIALIZATION
 // ========================================
 document.addEventListener('DOMContentLoaded', function () {
@@ -1266,6 +1367,7 @@ document.addEventListener('DOMContentLoaded', function () {
     loadProfileData();
     
     // Initialize page-specific functionality
+    initLogin();
     initIndex();
     initDashboard();
     initAnalytics();
