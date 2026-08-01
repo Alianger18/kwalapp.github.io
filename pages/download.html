@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-i18n="download_page_title">Download Kwala App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Inter:wght@400;600;700;800&family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .download-landing-hero {
+            padding: 40px 5% 60px 5%;
+            max-width: 800px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .download-mascot-wrapper {
+            margin-bottom: 30px;
+        }
+
+        .download-mascot-img {
+            max-width: 220px;
+            height: auto;
+            filter: drop-shadow(0 15px 30px rgba(46, 37, 80, 0.15));
+        }
+
+        .download-landing-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(2.2rem, 6vw, 3.2rem);
+            color: var(--text-main);
+            margin-bottom: 16px;
+            line-height: 1.25;
+        }
+
+        .routing-status-p {
+            font-family: var(--font-body);
+            font-size: clamp(1.05rem, 2.5vw, 1.25rem);
+            color: var(--purple-dark);
+            max-width: 540px;
+            margin-bottom: 35px;
+            line-height: 1.6;
+            min-height: 50px;
+        }
+
+        /* Stacked store buttons - One on top of the other */
+        .stacked-store-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            width: 100%;
+            max-width: 320px;
+        }
+
+        .stacked-store-link {
+            display: block;
+            width: 100%;
+            transition: transform 0.3s var(--ease-out-expo), filter 0.3s ease;
+            text-decoration: none;
+        }
+
+        .stacked-store-link:hover {
+            transform: translateY(-3px) scale(1.02);
+            filter: drop-shadow(0 12px 24px rgba(46, 37, 80, 0.2));
+        }
+
+        .stacked-store-img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 14px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="../index.html" class="logo">Kwala</a>
+
+    <div class="header-right">
+        <div class="lang-selector" id="langBtn">
+            <span id="currentLang">EN</span>
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <div class="lang-dropdown-menu" id="langDropdown">
+            <div data-lang="en">English</div>
+            <div data-lang="ar">العربية</div>
+            <div data-lang="fr">Français</div>
+        </div>
+    </div>
+</header>
+
+<main class="download-landing-hero">
+    <div class="download-mascot-wrapper">
+        <img src="../assets/MainIconKwala-iOS-Default-1024x1024@1x.png" alt="Kwala App Icon" class="download-mascot-img">
+    </div>
+
+    <h1 data-i18n="download_title">Download the App & <br> Order Now !</h1>
+    <p class="routing-status-p" id="routingStatusMsg" data-i18n="download_subtitle">Detecting your device store...</p>
+
+    <!-- Stacked store buttons -->
+    <div class="stacked-store-buttons">
+        <a href="https://play.google.com/store/apps/details?id=com.kwala.app" target="_blank" class="stacked-store-link" id="playStoreLink">
+            <img src="../assets/play_store_download.png" alt="Get it on Google Play" class="stacked-store-img">
+        </a>
+        <a href="https://apps.apple.com/ma/app/kwala/id6760371031" target="_blank" class="stacked-store-link" id="appStoreLink">
+            <img src="../assets/app_store_download.png" alt="Download on the App Store" class="stacked-store-img">
+        </a>
+    </div>
+</main>
+
+<footer>
+    <div class="footer-content">
+        <div class="footer-top">
+            <div class="footer-brand">
+                <span class="footer-logo">Kwala</span>
+                <span class="footer-sub" data-i18n="footer_slogan">Breathe</span>
+            </div>
+
+            <div class="footer-nav-group">
+                <div class="nav-column">
+                    <h4 data-i18n="footer_discover">Discover</h4>
+                    <ul>
+                        <li><a href="about.html" data-i18n="footer_about" data-link="about">About Us</a></li>
+                        <li><a href="terms.html" data-i18n="footer_terms" data-link="terms">Terms of Use</a></li>
+                        <li><a href="privacy.html" data-i18n="footer_privacy" data-link="privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="nav-column">
+                    <h4 data-i18n="footer_contact">Contact</h4>
+                    <ul>
+                        <li><a href="mailto:support@kwala.com" data-i18n="footer_support">Support</a></li>
+                        <li><a href="https://web.facebook.com/profile.php?id=61579851110725" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                        <li><a href="https://www.instagram.com/kwala.app/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                        <li><a href="https://api.whatsapp.com/send?phone=%2B212635554120&token=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjEyNSJ9.eyJleHAiOjE3ODU2ODUyMDcsInBob25lIjoiKzIxMjYzNTU1NDEyMCIsImNvbnRleHQiOiJBZmd5N05ROElqUFZyLUZZZjRmOTFXNGJvVnlnVG5Fbk9vd2M0MnZ6NWY0UEh1X0VGWkFhbVEwT284bjJlZVc0VnpEb19Yb19mcDFRODJ3dGdNbm1EQVhiZ01kOE4xOGx2eW15Yno5R3lNYmJMNWVsRjZBVWNTTVJsajN3LVFxem1pWFc2ZzFCd3VFVzJkZEZvWUtZTGtoRXRBIiwic291cmNlIjoiRkJfUGFnZSIsImFwcCI6ImZhY2Vib29rIiwiZW50cnlfcG9pbnQiOiJwYWdlX2N0YSJ9.NHe3JK981QEVojilKy3WzwY9E_IPfEf_Zswh1gBKFqrX6w9oAI0sXQevXOS1jI_6tKAfUFWZz9SiY9v_IjIikg&fbclid=IwY2xjawTa8udleHRuA2FlbQIxMABicmlkETFucTZDbDdZMVl4THhSWVJnc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHu1egcjzSyWu9R-YXSeG9vkPmthL9Ob3pgX6Q8Wx24RuVCOVwpfIffF746Oz_aem_Uw0WaB70TpFcGbLkftMlgQ" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom" data-i18n="footer_copyright">
+            &copy; 2026 Kwala. All rights reserved.
+        </div>
+    </div>
+</footer>
+
+<script src="../js/download.js"></script>
+<script src="../js/script.js"></script>
+</body>
+</html>

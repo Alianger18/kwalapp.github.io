@@ -362,61 +362,62 @@ function buildDailyCounts(items) {
     return { labels, counts };
 }
 
-let adminOrdersSnapshotPromise = null;
+// Helper: format a Date as YYYY-MM-DD
+function formatDateYYYYMMDD(d) {
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+}
 
-async function fetchAdminOrdersSnapshot() {
-    if (adminOrdersSnapshotPromise) {
-        return adminOrdersSnapshotPromise;
+// Helper: read selected status from dashboard filter (fallback to 'delivered')
+function getSelectedStatus() {
+    try {
+        const el = document.getElementById('statusSelect');
+        if (el && el.value) return String(el.value).trim();
+    } catch (e) {
+        // ignore
     }
+    return 'delivered';
+}
 
-    const ordersUrl = buildRuntimeApiUrl('/admin/orders', { skip: 0, limit: 500 });
+// Fetch a live snapshot of orders and in-progress orders using the currently selected status
+async function fetchAdminOrdersSnapshot(statusOverride) {
+    const status = statusOverride || getSelectedStatus();
+    const ordersUrl = buildRuntimeApiUrl('/admin/orders', { skip: 0, limit: 500, status });
     const inProgressUrl = buildRuntimeApiUrl('/admin/orders/in-progress', { skip: 0, limit: 500 });
 
+    const apiDebugOutput = document.getElementById('apiDebugOutput');
     if (!ordersUrl || !inProgressUrl) {
+        if (apiDebugOutput) apiDebugOutput.textContent = 'Missing API base URL or invalid runtime config.';
         return null;
     }
 
-    adminOrdersSnapshotPromise = Promise.all([fetchApiJson(ordersUrl), fetchApiJson(inProgressUrl)])
-        .then(([ordersPayload, inProgressPayload]) => {
-            const ordersItems = asArray(ordersPayload && ordersPayload.items);
-            const inProgressItems = asArray(inProgressPayload && inProgressPayload.items);
-            
-            // Output to the debug div
-            const apiDebugOutput = document.getElementById('apiDebugOutput');
-            if (apiDebugOutput) {
-                const debugInfo = {
-                    ordersTotal: ordersPayload?.total,
-                    ordersCount: ordersItems.length,
-                    firstOrder: ordersItems[0],
-                    inProgressTotal: inProgressPayload?.total,
-                    inProgressCount: inProgressItems.length,
-                    firstInProgress: inProgressItems[0],
-                };
-                apiDebugOutput.textContent = JSON.stringify(debugInfo, null, 2);
-            }
+    if (apiDebugOutput) apiDebugOutput.textContent = `Requesting snapshot:\n${ordersUrl}\n${inProgressUrl}`;
 
-            return {
-                orders: {
-                    total: asTotal(ordersPayload),
-                    items: ordersItems,
-                },
-                inProgress: {
-                    total: asTotal(inProgressPayload),
-                    items: inProgressItems,
-                },
+    try {
+        const [ordersPayload, inProgressPayload] = await Promise.all([fetchApiJson(ordersUrl), fetchApiJson(inProgressUrl)]);
+        const ordersItems = asArray(ordersPayload && ordersPayload.items);
+        const inProgressItems = asArray(inProgressPayload && inProgressPayload.items);
+
+        if (apiDebugOutput) {
+            const debugInfo = {
+                request: { ordersUrl, inProgressUrl, status },
+                ordersSummary: { total: asTotal(ordersPayload), count: ordersItems.length },
+                inProgressSummary: { total: asTotal(inProgressPayload), count: inProgressItems.length },
+                sampleOrder: ordersItems[0] || null,
             };
-        })
-        .catch((error) => {
-            adminOrdersSnapshotPromise = null;
-            // Display error in debug container as well
-            const apiDebugOutput = document.getElementById('apiDebugOutput');
-            if (apiDebugOutput) {
-                apiDebugOutput.textContent = 'Error fetching data: ' + error.message;
-            }
-            throw error;
-        });
+            apiDebugOutput.textContent = JSON.stringify(debugInfo, null, 2);
+        }
 
-    return adminOrdersSnapshotPromise;
+        return {
+            orders: { total: asTotal(ordersPayload), items: ordersItems },
+            inProgress: { total: asTotal(inProgressPayload), items: inProgressItems },
+        };
+    } catch (err) {
+        if (apiDebugOutput) apiDebugOutput.textContent = 'Error fetching snapshot: ' + (err && err.message ? err.message : String(err));
+        throw err;
+    }
 }
 
 // ========================================
@@ -440,13 +441,224 @@ function initDashboard() {
         greetingEl.textContent = name ? msg + ', ' + name : msg;
     }
 
-    // --- Time-frame pill toggle ---
+    // --- Time-frame pill toggle + handlers ---
+    function parseTimeframe(range) {
+        const r = String(range || '').trim().toLowerCase();
+        if (r === '24h' || r === '24 hours' || r === '24') return { unit: 'hour', count: 24 };
+        if (r === '7d' || r === '7 days' || r === '7') return { unit: 'day', count: 7 };
+        if (r === '30d' || r === '30 days' || r === '30') return { unit: 'day', count: 30 };
+        if (r === '12m' || r === '12 months' || r === '12') return { unit: 'month', count: 12 };
+        return { unit: 'month', count: 12 };
+    }
+
+    function getTimeRangeFor(range) {
+        const now = new Date();
+        const parsed = parseTimeframe(range);
+        const start = new Date(now);
+
+        if (parsed.unit === 'hour') {
+            start.setMinutes(0, 0, 0);
+            start.setHours(now.getHours() - (parsed.count - 1));
+        } else if (parsed.unit === 'day') {
+            start.setHours(0, 0, 0, 0);
+            start.setDate(now.getDate() - (parsed.count - 1));
+        } else {
+            start.setHours(0, 0, 0, 0);
+            start.setDate(1);
+            start.setMonth(now.getMonth() - (parsed.count - 1));
+        }
+
+        // Return date-only strings (YYYY-MM-DD) per request
+        return { timeFrom: formatDateYYYYMMDD(start), timeTo: formatDateYYYYMMDD(now), parsed };
+    }
+
+    async function fetchOrdersForRange(timeFromISO, timeToISO) {
+        const status = getSelectedStatus();
+        const ordersUrl = buildRuntimeApiUrl('/admin/orders', { skip: 0, limit: 500, status, time_from: timeFromISO, time_to: timeToISO });
+        const inProgressUrl = buildRuntimeApiUrl('/admin/orders/in-progress', { skip: 0, limit: 500, time_from: timeFromISO, time_to: timeToISO });
+
+        const apiDebugOutput = document.getElementById('apiDebugOutput');
+        if (!ordersUrl || !inProgressUrl) {
+            if (apiDebugOutput) apiDebugOutput.textContent = 'Missing API base URL or invalid runtime config.';
+            return null;
+        }
+
+        if (apiDebugOutput) {
+            apiDebugOutput.textContent = `Requesting:\n${ordersUrl}\n${inProgressUrl}`;
+        }
+
+        try {
+            const [ordersPayload, inProgressPayload] = await Promise.all([fetchApiJson(ordersUrl), fetchApiJson(inProgressUrl)]);
+            const ordersItems = asArray(ordersPayload && ordersPayload.items);
+            const inProgressItems = asArray(inProgressPayload && inProgressPayload.items);
+
+            if (apiDebugOutput) {
+                const debugInfo = {
+                    request: { ordersUrl, inProgressUrl, time_from: timeFromISO, time_to: timeToISO },
+                    ordersSummary: { total: asTotal(ordersPayload), count: ordersItems.length },
+                    inProgressSummary: { total: asTotal(inProgressPayload), count: inProgressItems.length },
+                    sampleOrder: ordersItems[0] || null,
+                };
+                apiDebugOutput.textContent = JSON.stringify(debugInfo, null, 2);
+            }
+
+            return {
+                orders: { total: asTotal(ordersPayload), items: ordersItems },
+                inProgress: { total: asTotal(inProgressPayload), items: inProgressItems },
+            };
+        } catch (err) {
+            if (apiDebugOutput) apiDebugOutput.textContent = 'Error fetching data: ' + (err && err.message ? err.message : String(err));
+            throw err;
+        }
+    }
+
+    function getLastNHourLabels(n) {
+        const labels = [];
+        const now = new Date();
+        for (let offset = n - 1; offset >= 0; offset -= 1) {
+            const d = new Date(now);
+            d.setHours(now.getHours() - offset, 0, 0, 0);
+            labels.push(`${String(d.getHours()).padStart(2, '0')}:00`);
+        }
+        return labels;
+    }
+
+    function buildHourlyCounts(items, n) {
+        const labels = getLastNHourLabels(n);
+        const counts = labels.map(() => 0);
+        const start = new Date();
+        start.setMinutes(0, 0, 0);
+        start.setHours(start.getHours() - (n - 1));
+
+        asArray(items).forEach((item) => {
+            const rawDate = item && item.created_at;
+            if (!rawDate) return;
+            const d = new Date(rawDate);
+            if (Number.isNaN(d.getTime()) || d < start) return;
+            const idx = Math.floor((d - start) / (60 * 60 * 1000));
+            if (idx >= 0 && idx < counts.length) counts[idx] += 1;
+        });
+
+        return { labels, counts };
+    }
+
+    function getLastNDaysLabels(n) {
+        const formatter = new Intl.DateTimeFormat('en-US', { month: 'short', day: 'numeric' });
+        const labels = [];
+        const now = new Date();
+        for (let offset = n - 1; offset >= 0; offset -= 1) {
+            const d = new Date(now);
+            d.setDate(now.getDate() - offset);
+            labels.push(formatter.format(d));
+        }
+        return labels;
+    }
+
+    function buildDailyCountsGeneric(items, n) {
+        const labels = getLastNDaysLabels(n);
+        const counts = labels.map(() => 0);
+        const start = new Date();
+        start.setHours(0, 0, 0, 0);
+        start.setDate(start.getDate() - (n - 1));
+
+        asArray(items).forEach((item) => {
+            const rawDate = item && item.created_at;
+            if (!rawDate) return;
+            const d = new Date(rawDate);
+            if (Number.isNaN(d.getTime()) || d < start) return;
+            const idx = Math.floor((d - start) / (24 * 60 * 60 * 1000));
+            if (idx >= 0 && idx < counts.length) counts[idx] += 1;
+        });
+
+        return { labels, counts };
+    }
+
+    function getLastNMonthsLabels(n) {
+        const labels = [];
+        const now = new Date();
+        for (let offset = n - 1; offset >= 0; offset -= 1) {
+            const d = new Date(now);
+            d.setMonth(now.getMonth() - offset);
+            labels.push(d.toLocaleString('en-US', { month: 'short' }));
+        }
+        return labels;
+    }
+
+    function buildMonthlyCounts(items, n) {
+        const labels = getLastNMonthsLabels(n);
+        const counts = labels.map(() => 0);
+        const start = new Date();
+        start.setDate(1);
+        start.setHours(0, 0, 0, 0);
+        start.setMonth(start.getMonth() - (n - 1));
+
+        asArray(items).forEach((item) => {
+            const rawDate = item && item.created_at;
+            if (!rawDate) return;
+            const d = new Date(rawDate);
+            if (Number.isNaN(d.getTime()) || d < start) return;
+            const idx = (d.getFullYear() - start.getFullYear()) * 12 + (d.getMonth() - start.getMonth());
+            if (idx >= 0 && idx < counts.length) counts[idx] += 1;
+        });
+
+        return { labels, counts };
+    }
+
+    async function updateDashboardForTimeframe(range) {
+        try {
+            const { timeFrom, timeTo, parsed } = getTimeRangeFor(range);
+            const snapshot = await fetchOrdersForRange(timeFrom, timeTo);
+            if (!snapshot) return;
+
+            const revenue = Math.round(sumOrderAmounts(snapshot.orders.items));
+            const activeRiders = countDistinct(snapshot.inProgress.items, 'boy_id');
+
+            if (counters[0]) counters[0].dataset.target = String(revenue);
+            if (counters[1]) counters[1].dataset.target = String(activeRiders);
+            if (counters[2]) counters[2].dataset.target = String(snapshot.orders.total);
+
+            runKpiCounterAnimation();
+
+            let ordersSeries, inProgressSeries;
+            if (parsed.unit === 'hour') {
+                ordersSeries = buildHourlyCounts(snapshot.orders.items, parsed.count);
+                inProgressSeries = buildHourlyCounts(snapshot.inProgress.items, parsed.count);
+            } else if (parsed.unit === 'day') {
+                ordersSeries = buildDailyCountsGeneric(snapshot.orders.items, parsed.count);
+                inProgressSeries = buildDailyCountsGeneric(snapshot.inProgress.items, parsed.count);
+            } else {
+                ordersSeries = buildMonthlyCounts(snapshot.orders.items, parsed.count);
+                inProgressSeries = buildMonthlyCounts(snapshot.inProgress.items, parsed.count);
+            }
+
+            chart.data.labels = ordersSeries.labels;
+            chart.data.datasets[0].data = ordersSeries.counts;
+            chart.data.datasets[1].data = inProgressSeries.counts;
+            chart.update();
+        } catch (err) {
+            console.warn('Failed to update dashboard for timeframe', err);
+        }
+    }
+
+    // wire up pill clicks to update timeframe
     document.querySelectorAll('.tf-pill').forEach(pill => {
         pill.addEventListener('click', () => {
             document.querySelectorAll('.tf-pill').forEach(p => p.classList.remove('active'));
             pill.classList.add('active');
+            const range = pill.dataset.range || pill.textContent.trim().toLowerCase();
+            updateDashboardForTimeframe(range);
         });
     });
+
+    // wire up status filter changes
+    const statusSelectEl = document.getElementById('statusSelect');
+    if (statusSelectEl) {
+        statusSelectEl.addEventListener('change', () => {
+            const activePill = document.querySelector('.tf-pill.active');
+            const range = activePill ? (activePill.dataset.range || activePill.textContent.trim().toLowerCase()) : '12m';
+            updateDashboardForTimeframe(range);
+        });
+    }
 
     // Animated Counter for KPI Values
     const counters = document.querySelectorAll('.counter');
@@ -560,39 +772,12 @@ function initDashboard() {
         }
     });
 
-    fetchAdminOrdersSnapshot()
-        .then((snapshot) => {
-            if (!snapshot) {
-                return;
-            }
-
-            const revenue = Math.round(sumOrderAmounts(snapshot.orders.items));
-            const activeRiders = countDistinct(snapshot.inProgress.items, 'boy_id');
-
-            if (counters[0]) {
-                counters[0].dataset.target = String(revenue);
-            }
-
-            if (counters[1]) {
-                counters[1].dataset.target = String(activeRiders);
-            }
-
-            if (counters[2]) {
-                counters[2].dataset.target = String(snapshot.orders.total);
-            }
-
-            runKpiCounterAnimation();
-
-            const ordersSeries = buildDailyCounts(snapshot.orders.items);
-            const inProgressSeries = buildDailyCounts(snapshot.inProgress.items);
-            chart.data.labels = ordersSeries.labels;
-            chart.data.datasets[0].data = ordersSeries.counts;
-            chart.data.datasets[1].data = inProgressSeries.counts;
-            chart.update();
-        })
-        .catch((error) => {
-            console.warn('Dashboard live data unavailable:', error.message);
-        });
+    // initialize dashboard with default timeframe (active pill or 12m)
+    const defaultPill = document.querySelector('.tf-pill.active') || document.querySelector('.tf-pill[data-range="12m"]') || document.querySelector('.tf-pill');
+    const defaultRange = defaultPill ? (defaultPill.dataset.range || defaultPill.textContent.trim().toLowerCase()) : '12m';
+    updateDashboardForTimeframe(defaultRange).catch((error) => {
+        console.warn('Dashboard live data unavailable:', error && error.message ? error.message : error);
+    });
 
     return true;
 }

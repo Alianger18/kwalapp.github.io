@@ -7,7 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
 
@@ -36,7 +36,7 @@
     </div>
 
     <div class="header-right">
-        <a href="login.html" class="login-btn" data-i18n="nav_login">Login</a>
+        <a href="pages/login.html" class="login-btn" data-i18n="nav_login">Login</a>
         <div class="lang-selector" id="langBtn">
             <span id="currentLang">EN</span>
             <svg width="10" height="6" viewBox="0 0 10 6" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -171,31 +171,22 @@
         <p class="download-subtitle" data-i18n="download_subtitle">Convinced. What are you waiting for ?</p>
         <h2 data-i18n="download_title">Download the app & <br> Order Now !</h2>
         <div class="store-buttons">
-            <button class="store-btn"
-onclick="window.open('https://play.google.com/store/apps/details?id=com.kwala.app','_blank')">
-                <span class="icon">▶</span>
-                <div class="btn-text">
-                    <span class="small" data-i18n="get_it_on">GET IT ON</span>
-                    <span class="large">Google Play</span>
-                </div>
-            </button>
-            <button class="store-btn" onclick="window.open('https://apps.apple.com/app/kwala/id000000000', '_blank')">
-                <span class="icon"></span>
-                <div class="btn-text">
-                    <span class="small" data-i18n="download_on">Download on the</span>
-                    <span class="large">App Store</span>
-                </div>
-            </button>
+            <a href="https://play.google.com/store/apps/details?id=com.kwala.app" target="_blank" class="store-badge-link">
+                <img src="assets/play_store_download.png" alt="Get it on Google Play" class="store-badge-asset">
+            </a>
+            <a href="https://apps.apple.com/ma/app/kwala/id6760371031" target="_blank" class="store-badge-link">
+                <img src="assets/app_store_download.png" alt="Download on the App Store" class="store-badge-asset">
+            </a>
         </div>
     </div>
     <div class="download-image">
-        <img src="assets/landing_kwala.png" alt="Kwala App">
+        <img src="assets/MainIconKwala-iOS-Default-1024x1024@1x.png" alt="Kwala App Icon">
     </div>
 </section>
 
 <!-- Floating Order Button -->
 <div id="floating-order-btn">
-    <a href="#download">
+    <a href="pages/download.html">
         <span class="btn-icon">🍔</span>
         <span data-i18n="floating_order">Order Now</span>
     </a>
@@ -213,18 +204,18 @@ onclick="window.open('https://play.google.com/store/apps/details?id=com.kwala.ap
                 <div class="nav-column">
                     <h4 data-i18n="footer_discover">Discover</h4>
                     <ul>
-                        <li><a href="about.html" data-i18n="footer_about" data-link="about">About Us</a></li>
-                        <li><a href="terms.html" data-i18n="footer_terms" data-link="terms">Terms of Use</a></li>
-                        <li><a href="privacy.html" data-i18n="footer_privacy" data-link="privacy">Privacy Policy</a></li>
+                        <li><a href="pages/about.html" data-i18n="footer_about" data-link="pages/about">About Us</a></li>
+                        <li><a href="pages/terms.html" data-i18n="footer_terms" data-link="pages/terms">Terms of Use</a></li>
+                        <li><a href="pages/privacy.html" data-i18n="footer_privacy" data-link="pages/privacy">Privacy Policy</a></li>
                     </ul>
                 </div>
                 <div class="nav-column">
                     <h4 data-i18n="footer_contact">Contact</h4>
                     <ul>
                         <li><a href="mailto:support@kwala.com" data-i18n="footer_support">Support</a></li>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">WhatsApp</a></li>
+                        <li><a href="https://web.facebook.com/profile.php?id=61579851110725" target="_blank" rel="noopener noreferrer">Facebook</a></li>
+                        <li><a href="https://www.instagram.com/kwala.app/" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+                        <li><a href="https://api.whatsapp.com/send?phone=%2B212635554120&token=eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjEyNSJ9.eyJleHAiOjE3ODU2ODUyMDcsInBob25lIjoiKzIxMjYzNTU1NDEyMCIsImNvbnRleHQiOiJBZmd5N05ROElqUFZyLUZZZjRmOTFXNGJvVnlnVG5Fbk9vd2M0MnZ6NWY0UEh1X0VGWkFhbVEwT284bjJlZVc0VnpEb19Yb19mcDFRODJ3dGdNbm1EQVhiZ01kOE4xOGx2eW15Yno5R3lNYmJMNWVsRjZBVWNTTVJsajN3LVFxem1pWFc2ZzFCd3VFVzJkZEZvWUtZTGtoRXRBIiwic291cmNlIjoiRkJfUGFnZSIsImFwcCI6ImZhY2Vib29rIiwiZW50cnlfcG9pbnQiOiJwYWdlX2N0YSJ9.NHe3JK981QEVojilKy3WzwY9E_IPfEf_Zswh1gBKFqrX6w9oAI0sXQevXOS1jI_6tKAfUFWZz9SiY9v_IjIikg&fbclid=IwY2xjawTa8udleHRuA2FlbQIxMABicmlkETFucTZDbDdZMVl4THhSWVJnc3J0YwZhcHBfaWQQMjIyMDM5MTc4ODIwMDg5MgABHu1egcjzSyWu9R-YXSeG9vkPmthL9Ob3pgX6Q8Wx24RuVCOVwpfIffF746Oz_aem_Uw0WaB70TpFcGbLkftMlgQ" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
                     </ul>
                 </div>
             </div>
@@ -236,6 +227,6 @@ onclick="window.open('https://play.google.com/store/apps/details?id=com.kwala.ap
     </div>
 </footer>
 
-<script src="script.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>

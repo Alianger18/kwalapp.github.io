@@ -78,9 +78,7 @@ You have the right to:
 Contact **info@kwala.app** to exercise these rights.
 
 ## 7. Children’s Privacy
-Kwala is not intended for children under the age of 16.  
-
-We do not knowingly collect personal data from children.  
+We do not knowingly collect personal data from children.
 
 If such data is identified, it will be deleted promptly.
 

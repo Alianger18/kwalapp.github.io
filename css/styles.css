@@ -3,24 +3,26 @@
    With smoother animations & innovative touches
    ======================================== */
 
+@import url('https://fonts.googleapis.com/css2?family=ADLaM+Display&family=Inter:wght@400;600;700;800&family=Noto+Kufi+Arabic:wght@100..900&display=swap');
+
 /* --- 1. Font Definitions --- */
 @font-face {
     font-family: 'ADLaM Display';
-    src: url('fonts/ADLaM_Display.ttf') format('truetype');
+    src: url('../fonts/ADLaM_Display.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Inter';
-    src: url('fonts/Inter_Regular.ttf') format('truetype');
+    src: url('../fonts/Inter_Regular.ttf') format('truetype');
     font-weight: 400;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Inter';
-    src: url('fonts/Inter_Bold.ttf') format('truetype');
+    src: url('../fonts/Inter_Bold.ttf') format('truetype');
     font-weight: 700;
     font-style: normal;
 }
@@ -841,6 +843,26 @@ header.scrolled {
     display: flex;
     gap: 20px;
     flex-wrap: wrap;
+    align-items: center;
+}
+
+.store-badge-link {
+    display: inline-block;
+    transition: transform 0.3s var(--ease-out-expo), filter 0.3s ease;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.store-badge-link:hover {
+    transform: translateY(-4px) scale(1.03);
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.18));
+}
+
+.store-badge-asset {
+    height: 56px;
+    width: auto;
+    display: block;
+    border-radius: 12px;
 }
 
 .store-btn {
